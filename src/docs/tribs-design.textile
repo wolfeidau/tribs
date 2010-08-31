@@ -1,0 +1,23 @@
+h1. Introduction
+
+This plug-in is designed to build expose a contribution report, displaying the effort, typically in work logged, contributed by each user.
+
+h1. API
+
+As the objective of this plug-in is to expose some information to other systems a detailed description of the interface is required.
+
+As this is hosted in JIRA some basic rules apply, firstly a segment of the URI is controlled by this application which we will call the "base" URI.
+
+/jira/trib-rest/1.0/
+
+Beyond the end of this URI is under the control of our plug-in, through the use of JSR311 tags. 
+
+The first URI retrieves a list of user contributions with a sum of hours contributed to each project. This can also takes two parameters, start date and end date to supply the same report constrained by a given period.
+
+No params is all contributions ever.
+
+/jira/trib-rest/1.0/contributions/xml
+
+With parameters, note the start date is inclusive and end date is exclusive.
+
+/jira/trib-rest/1.0/contributions/xml?startDate=2010-06-01&endDate=2010-07-01
