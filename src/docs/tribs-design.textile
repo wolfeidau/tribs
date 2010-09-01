@@ -16,8 +16,15 @@ The first URI retrieves a list of user contributions with a sum of hours contrib
 
 No params is all contributions ever.
 
-/jira/trib-rest/1.0/contributions/xml
+/jira/trib-rest/1.0/contributions/all
 
 With parameters, note the start date is inclusive and end date is exclusive.
 
-/jira/trib-rest/1.0/contributions/xml?startDate=2010-06-01&endDate=2010-07-01
+/jira/trib-rest/1.0/contributions/period?startDate=2010-06-01&endDate=2010-07-01
+
+
+JIRA-123 
+- FRED 1h
+- Bob 2h in 2 entries
+- Jill 1h
+
