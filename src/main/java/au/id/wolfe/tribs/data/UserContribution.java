@@ -14,47 +14,59 @@ import com.google.common.collect.Lists;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UserContribution {
 
-	public String userid;
+    public String userid;
+    public String fullName;
+
+    public List<ProjectTimeSpent> projectTimeSpentList = Lists.newLinkedList();
+
+    public UserContribution() {
+    }
+
+    public UserContribution(String userid, String fullName) {
+	this.userid = userid;
+	this.fullName = fullName;
+    }
+
+    public String getUserid() {
+	return userid;
+    }
+
+    public void setUserid(String userid) {
+	this.userid = userid;
+    }
+
+    public String getFullName() {
+	return fullName;
+    }
+
+    public void setFullName(String fullName) {
+	this.fullName = fullName;
+    }
+
+    public List<ProjectTimeSpent> getProjectTimeSpentList() {
+	return projectTimeSpentList;
+    }
+
+    public boolean addOrUpdateProjectHours(final String projectName,
+	    final String projectKey, final Long timeworked) {
 	
-	public List<ProjectTimeSpent> projectTimeSpentList = Lists.newLinkedList();
+	Iterable<ProjectTimeSpent> phlist = Iterables.filter(
+		projectTimeSpentList, new Predicate<ProjectTimeSpent>() {
+		    public boolean apply(ProjectTimeSpent input) {
+			return input.projectKey == projectKey;
+		    }
 
-	public UserContribution() {
+		});
+	
+	if (phlist.iterator().hasNext()) {
+	    phlist.iterator().next().addHours(timeworked);
+	    return false;
+	} else {
+	    projectTimeSpentList.add(new ProjectTimeSpent(projectName,
+		    projectKey, timeworked));
+	    return true;
 	}
 
-	public UserContribution(String userid) {
-		this.userid = userid;
-	}
+    }
 
-	public String getUserid() {
-		return userid;
-	}
-
-	public void setUserid(String userid) {
-		this.userid = userid;
-	}
-
-	public List<ProjectTimeSpent> getProjectTimeSpentList() {
-		return projectTimeSpentList;
-	}
-
-	public void setProjectTimeSpentList(List<ProjectTimeSpent> projectTimeSpentList) {
-		this.projectTimeSpentList = projectTimeSpentList;
-	}
-
-	public void addProjectHours(final String projectName,
-			final String projectKey, final Long timeworked) {
-		Iterable<ProjectTimeSpent> phlist = Iterables.filter(projectTimeSpentList,
-				new Predicate<ProjectTimeSpent>() {
-					public boolean apply(ProjectTimeSpent input) {
-						return input.projectKey == projectKey;
-					}
-
-				});
-		if (phlist.iterator().hasNext()){
-			phlist.iterator().next().addHours(timeworked);
-		} else {
-			projectTimeSpentList.add(new ProjectTimeSpent(projectName, projectKey, timeworked));
-		}
-
-	}
 }

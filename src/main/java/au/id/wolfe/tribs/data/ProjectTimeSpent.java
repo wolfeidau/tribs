@@ -9,56 +9,57 @@ import com.atlassian.gzipfilter.org.apache.commons.lang.builder.HashCodeBuilder;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProjectTimeSpent {
 
-	String projectName;
-	String projectKey;
-	Long timespent = 0l;
+    String projectName;
+    String projectKey;
+    Long timespent = 0l;
 
-	public ProjectTimeSpent(){
-	}
-	
-	public ProjectTimeSpent(String projectName, String projectKey, Long timespent) {
-		this.projectName = projectName;
-		this.projectKey = projectKey;
-		this.timespent = timespent;
-	}
+    public ProjectTimeSpent() {
+    }
 
-	public String getProjectName() {
-		return projectName;
-	}
+    public ProjectTimeSpent(String projectName, String projectKey,
+	    Long timespent) {
+	this.projectName = projectName;
+	this.projectKey = projectKey;
+	this.timespent = timespent;
+    }
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
+    public String getProjectName() {
+	return projectName;
+    }
 
-	public String getProjectKey() {
-		return projectKey;
-	}
+    public void setProjectName(String projectName) {
+	this.projectName = projectName;
+    }
 
-	public void setProjectKey(String projectKey) {
-		this.projectKey = projectKey;
-	}
+    public String getProjectKey() {
+	return projectKey;
+    }
 
-	public Long getTimespent() {
-		return timespent;
-	}
+    public void setProjectKey(String projectKey) {
+	this.projectKey = projectKey;
+    }
 
-	public void setTimespent(Long timespent) {
-		this.timespent = timespent;
-	}
+    public Long getTimespent() {
+	return timespent;
+    }
 
-	public void addHours(Long timeworked) {
-		this.timespent = this.timespent + timeworked;
-		
-	}
+    public void setTimespent(Long timespent) {
+	this.timespent = timespent;
+    }
 
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
+    public void addHours(Long timeworked) {
+	this.timespent = this.timespent + timeworked;
 
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
-	}
-	
+    }
+
+    @Override
+    public int hashCode() {
+	return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
 }

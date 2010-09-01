@@ -6,7 +6,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Date;
-import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
@@ -14,83 +13,68 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import au.id.wolfe.tribs.data.UserContribution;
+import au.id.wolfe.tribs.data.ContributionsSummary;
 import au.id.wolfe.tribs.service.ContributionsService;
-
-import com.atlassian.jira.issue.IssueManager;
-import com.atlassian.jira.ofbiz.OfBizDelegator;
-import com.atlassian.jira.project.ProjectManager;
-import com.google.common.collect.Lists;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ContributionsResourceTest {
 
-	String ISO8601_DATE_PATTERN = "yyyy-MM-dd";
+    String ISO8601_DATE_PATTERN = "yyyy-MM-dd";
 
-	@Mock
-	ContributionsService contributionsService;
+    @Mock
+    ContributionsService contributionsService;
 
-	@Mock
-	ProjectManager projectManager;
+    @Test
+    public void testGetAllUserContributions() throws Exception {
 
-	@Mock
-	IssueManager issueManager;
+	ContributionsSummary contributionsSummary = new ContributionsSummary();
 
-	@Mock
-	OfBizDelegator genericDelegator;
+	ContributionsResource contributionsResource = getContributionsResource();
 
-	@Test
-	public void testGetAllUserContributions() throws Exception {
+	when(contributionsService.getAllUserContributions()).thenReturn(
+		contributionsSummary);
 
-		List<UserContribution> userContributions = Lists.newLinkedList();
+	ContributionsSummary contributionsSummaryResponse = contributionsResource
+		.getAllUserContributions();
 
-		ContributionsResource contributionsResource = getContributionsResource();
+	assertEquals(contributionsSummary, contributionsSummaryResponse);
 
-		when(contributionsService.getAllUserContributions()).thenReturn(
-				userContributions);
+	verify(contributionsService).getAllUserContributions();
 
-		List<UserContribution> userContributionsResponse = contributionsResource
-				.getAllUserContributions();
+    }
 
-		assertEquals(userContributions, userContributionsResponse);
+    @Test
+    public void testGetUserContributionsForPeriod() throws Exception {
 
-		verify(contributionsService).getAllUserContributions();
+	Date startDate = DateUtils.parseDate("2010-01-01",
+		new String[] { ISO8601_DATE_PATTERN });
+	Date endDate = DateUtils.parseDate("2010-02-01",
+		new String[] { ISO8601_DATE_PATTERN });
 
-	}
+	ContributionsSummary userContributions = new ContributionsSummary();
 
-	@Test
-	public void testGetUserContributionsForPeriod() throws Exception {
+	ContributionsResource contributionsResource = getContributionsResource();
 
-		Date startDate = DateUtils.parseDate("2010-01-01",
-				new String[] { ISO8601_DATE_PATTERN });
-		Date endDate = DateUtils.parseDate("2010-02-01",
-				new String[] { ISO8601_DATE_PATTERN });
+	when(
+		contributionsService.getUserContributionsForPeriod(
+			eq(startDate), eq(endDate))).thenReturn(
+		userContributions);
 
-		List<UserContribution> userContributions = Lists.newLinkedList();
+	ContributionsSummary userContributionsResponse = contributionsResource
+		.getUserContributionsForPeriod(startDate, endDate);
 
-		ContributionsResource contributionsResource = getContributionsResource();
+	assertEquals(userContributions, userContributionsResponse);
 
-		when(
-				contributionsService.getUserContributionsForPeriod(
-						eq(startDate), eq(endDate))).thenReturn(
-				userContributions);
+	verify(contributionsService).getUserContributionsForPeriod(
+		eq(startDate), eq(endDate));
 
-		List<UserContribution> userContributionsResponse = contributionsResource
-				.getUserContributionsForPeriod(startDate, endDate);
+    }
 
-		assertEquals(userContributions, userContributionsResponse);
+    private ContributionsResource getContributionsResource() {
 
-		verify(contributionsService).getUserContributionsForPeriod(
-				eq(startDate), eq(endDate));
+	ContributionsResource contributionsResource = new ContributionsResource(
+		contributionsService);
 
-	}
-
-	private ContributionsResource getContributionsResource() {
-		ContributionsResource contributionsResource = new ContributionsResource(
-				projectManager, genericDelegator, issueManager);
-
-		contributionsResource.setContributionsService(contributionsService);
-
-		return contributionsResource;
-	}
+	return contributionsResource;
+    }
 }

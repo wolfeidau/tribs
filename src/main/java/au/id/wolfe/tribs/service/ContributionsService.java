@@ -1,15 +1,14 @@
 package au.id.wolfe.tribs.service;
 
 import java.util.Date;
-import java.util.List;
 
-import au.id.wolfe.tribs.data.UserContribution;
+import au.id.wolfe.tribs.data.ContributionsSummary;
 
 public interface ContributionsService {
 
-    List<UserContribution> getAllUserContributions();
+    ContributionsSummary getAllUserContributions();
 
-    List<UserContribution> getUserContributionsForPeriod(Date startDate,
+    ContributionsSummary getUserContributionsForPeriod(Date startDate,
 	    Date endDate);
 
 }
