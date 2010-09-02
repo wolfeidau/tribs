@@ -1,109 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>au.id.wolfe.tribs</groupId>
-	<artifactId>tribs</artifactId>
-	<version>1.0-SNAPSHOT</version>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>au.id.wolfe.tribs</groupId>
+  <artifactId>tribs</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <inceptionYear>2010</inceptionYear>
+  <organization>
+    <name>Mark Wolfe</name>
+    <url>http://www.wolfe.id.au/</url>
+  </organization>
+  <developers>
+    <developer>
+      <name>Mark Wolfe</name>
+      <email>mark@wolfe.id.au</email>
+      <timezone>+10</timezone>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <licenses>
+    <license>
+      <name>Apache 2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
 
-	<organization>
-		<name>Mark Wolfe</name>
-		<url>http://www.wolfe.id.au/</url>
-	</organization>
+  <name>tribs</name>
+  <description>This is the tribs plugin for Atlassian JIRA.</description>
+  <packaging>atlassian-plugin</packaging>
 
-	<name>tribs</name>
-	<description>This is the tribs plugin for Atlassian JIRA.</description>
-	<packaging>atlassian-plugin</packaging>
+  <dependencies>
+    <!-- REST DEPENDENCIES see http://confluence.atlassian.com/display/DEVNET/Plugin+Tutorial+-+Writing+REST+Services -->
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>jsr311-api</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <version>2.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.atlassian.plugins.rest</groupId>
+      <artifactId>atlassian-rest-common</artifactId>
+      <version>1.0.2</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.3</version>
+      <scope>provided</scope>
+    </dependency>
 
-	<dependencies>
-		<!-- REST DEPENDENCIES see http://confluence.atlassian.com/display/DEVNET/Plugin+Tutorial+-+Writing+REST+Services -->
-		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>jsr311-api</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>2.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.atlassian.plugins.rest</groupId>
-			<artifactId>atlassian-rest-common</artifactId>
-			<version>1.0.2</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.3</version>
-			<scope>provided</scope>
-		</dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-test-framework</artifactId>
+      <version>1.1.2-ea</version>
+      <scope>test</scope>
+    </dependency>
 
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-test-framework</artifactId>
-			<version>1.1.2-ea</version>
-			<scope>test</scope>
-		</dependency>
+    <!-- Mocking GOODNESS -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.8.1</version>
+      <scope>test</scope>
+    </dependency>
 
-		<!-- Mocking GOODNESS -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.8.1</version>
-			<scope>test</scope>
-		</dependency>
+    <dependency>
+      <groupId>com.atlassian.jira</groupId>
+      <artifactId>atlassian-jira</artifactId>
+      <version>${jira.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.6</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.atlassian.jira</groupId>
+      <artifactId>jira-func-tests</artifactId>
+      <version>${jira.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
-		<dependency>
-			<groupId>com.atlassian.jira</groupId>
-			<artifactId>atlassian-jira</artifactId>
-			<version>${jira.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.6</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.atlassian.jira</groupId>
-			<artifactId>jira-func-tests</artifactId>
-			<version>${jira.version}</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.mycila.maven-license-plugin</groupId>
+        <artifactId>maven-license-plugin</artifactId>
+        <configuration>
+          <properties>
+            <owner>Mark Wolfe</owner>
+            <year>${project.inceptionYear}</year>
+            <email>mark.wolfe@wolfe.id.au</email>
+          </properties>
+          <header>${basedir}/src/main/etc/header.txt</header>
+        </configuration>
+      </plugin>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>com.atlassian.maven.plugins</groupId>
-				<artifactId>maven-jira-plugin</artifactId>
-				<version>3.2</version>
-				<extensions>true</extensions>
-				<configuration>
-					<productVersion>${jira.version}</productVersion>
-					<productDataVersion>${jira.data.version}</productDataVersion>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
-	<properties>
-		<jira.version>4.1.2</jira.version>
-		<jira.data.version>4.1.1</jira.data.version>
-	</properties>
+      <plugin>
+        <groupId>com.atlassian.maven.plugins</groupId>
+        <artifactId>maven-jira-plugin</artifactId>
+        <version>3.2</version>
+        <extensions>true</extensions>
+        <configuration>
+          <productVersion>${jira.version}</productVersion>
+          <productDataVersion>${jira.data.version}</productDataVersion>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <consoleOutput>true</consoleOutput>
+          <configLocation>${basedir}/src/main/etc/checkstyle.xml</configLocation>
+          <enableRulesSummary>true</enableRulesSummary>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
+
+  <properties>
+    <jira.version>4.1.2</jira.version>
+    <jira.data.version>4.1.1</jira.data.version>
+  </properties>
 
 </project>
