@@ -1,6 +1,7 @@
 package au.id.wolfe.tribs;
 
-import org.junit.Assert;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -18,32 +19,34 @@ import com.atlassian.jira.project.ProjectManager;
 @RunWith(MockitoJUnitRunner.class)
 public class ContributionsServiceTest {
 
-    @Mock
-    ProjectManager projectManager;
+	@Mock
+	ProjectManager projectManager;
 
-    @Mock
-    IssueManager issueManager;
-    
-    @Mock
-    WorklogManager worklogManager;
+	@Mock
+	IssueManager issueManager;
 
-    @Mock
-    OfBizDelegator genericDelegator;
+	@Mock
+	WorklogManager worklogManager;
 
-    @Test
-    public void testAllUserContributions() {
+	@Mock
+	OfBizDelegator genericDelegator;
 
-	ContributionsService contributionsService = getContributionsService();
+	@Test
+	public void testAllUserContributions() {
 
-	ContributionsSummary userContributions = contributionsService
-		.getAllUserContributions();
+		//when(genericDelegator.findByCondition(eq(OfBizWorklogStore.WORKLOG_ENTITY), any(), eq(EasyList.build())))
+		
+		ContributionsService contributionsService = getContributionsService();
 
-	Assert.assertNotNull(userContributions);
-    }
+		ContributionsSummary userContributions = contributionsService
+				.getAllUserContributions();
 
-    private ContributionsService getContributionsService() {
-	return new ContributionsServiceImpl(projectManager, genericDelegator,
-		issueManager, worklogManager);
-    }
+		assertNotNull(userContributions);
+	}
+
+	private ContributionsService getContributionsService() {
+		return new ContributionsServiceImpl(projectManager, genericDelegator,
+				issueManager, worklogManager);
+	}
 
 }

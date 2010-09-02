@@ -29,89 +29,95 @@ import com.google.common.collect.Lists;
 
 public class ContributionsServiceImpl implements ContributionsService {
 
-    Logger logger = LoggerFactory.getLogger(ContributionsServiceImpl.class);
+	Logger logger = LoggerFactory.getLogger(ContributionsServiceImpl.class);
 
-    ProjectManager projectManager;
-    WorklogManager worklogManager;
-    IssueManager issueManager;
+	ProjectManager projectManager;
+	WorklogManager worklogManager;
+	IssueManager issueManager;
 
-    OfBizDelegator genericDelegator;
+	OfBizDelegator genericDelegator;
 
-    public ContributionsServiceImpl(ProjectManager projectManager,
-	    OfBizDelegator genericDelegator, IssueManager issueManager, WorklogManager worklogManager) {
-	this.projectManager = projectManager;
-	this.genericDelegator = genericDelegator;
-	this.issueManager = issueManager;
-	this.worklogManager = worklogManager;
+	public ContributionsServiceImpl(ProjectManager projectManager,
+			OfBizDelegator genericDelegator, IssueManager issueManager,
+			WorklogManager worklogManager) {
+		this.projectManager = projectManager;
+		this.genericDelegator = genericDelegator;
+		this.issueManager = issueManager;
+		this.worklogManager = worklogManager;
 
-    }
-
-    public ContributionsSummary getAllUserContributions() {
-
-	logger.info("Retrieving all contributions");
-
-	ContributionsSummary contributionsSummary = new ContributionsSummary();
-
-	List<Long> genericValues = getTimeWorked();
-
-	for (Long gv : genericValues){
-	    logger.info("id " + gv);
-	    Worklog worklog = worklogManager.getById(gv);
-	    contributionsSummary.addUserContribution(worklog.getAuthor(), worklog.getAuthorFullName());
-	    
-	    UserContribution userContribution = contributionsSummary.getUserContributionByUserId(worklog.getAuthor());
-	    
-	    Project project = worklog.getIssue().getProjectObject();
-	    
-	    userContribution.addOrUpdateProjectHours(project.getName(), project.getKey(), worklog.getTimeSpent());
-	    
 	}
 
-	return contributionsSummary;
-    }
+	public ContributionsSummary getAllUserContributions() {
 
-    public ContributionsSummary getUserContributionsForPeriod(Date startDate,
-	    Date endDate) {
+		logger.error("Retrieving all contributions");
 
-	logger.info("Retrieving all contributions for given startDate "
-		+ startDate + ", endDate " + endDate);
-	
-	ContributionsSummary contributionsSummary = new ContributionsSummary();
+		return getUserContributionsForPeriod(
+				Timestamp.valueOf("2000-01-01 00:00:00"),
+				Timestamp.valueOf("2020-01-01 00:00:00"));
 
-	getTimeWorked();
+	}
 
-	return contributionsSummary;
-    }
+	public ContributionsSummary getUserContributionsForPeriod(Date startDate,
+			Date endDate) {
 
-    /**
-     * Retrieve a list of uid, timeworked, startdate, issueid
-     */
-    @SuppressWarnings("unchecked")
-    private List<Long> getTimeWorked() {
+		logger.error("Retrieving all contributions for given startDate "
+				+ startDate + ", endDate " + endDate);
 
-	List<Long> worklogIdList = Lists.newLinkedList();
-	
-	List<EntityCondition> expressions = new ArrayList<EntityCondition>();
+		ContributionsSummary contributionsSummary = new ContributionsSummary();
 
-	expressions.add(new EntityExpr("startdate",
-		EntityOperator.GREATER_THAN_EQUAL_TO, Timestamp
-			.valueOf("2000-01-01 00:00:00")));
-	expressions.add(new EntityExpr("startdate",
-		EntityOperator.LESS_THAN_EQUAL_TO, Timestamp
-			.valueOf("2011-01-01 00:00:00")));
-	EntityCondition condition = new EntityConditionList(expressions,
-		EntityOperator.AND);
+		List<Long> genericValues = getTimeWorked(new Timestamp(startDate.getTime()), new Timestamp(endDate.getTime()));
 
-	for ( GenericValue value : genericDelegator.findByCondition(
-		OfBizWorklogStore.WORKLOG_ENTITY, condition,
-		//EasyList.build("id", "timeworked", "startdate", "author", "authorfullname"),
-		EasyList.build("id"),
-		EasyList.build())){
-	    worklogIdList.add(value.getLong("id"));
-	    
+		for (Long gv : genericValues) {
+			logger.info("id " + gv);
+			Worklog worklog = worklogManager.getById(gv);
+			contributionsSummary.addUserContribution(worklog.getAuthor(),
+					worklog.getAuthorFullName());
+
+			UserContribution userContribution = contributionsSummary
+					.userContributionByUserId(worklog.getAuthor());
+
+			Project project = worklog.getIssue().getProjectObject();
+
+			userContribution.addOrUpdateProjectHours(project.getName(),
+					project.getKey(), worklog.getTimeSpent());
+
+		}
+		
+		contributionsSummary.setCode(200);
+		contributionsSummary.setMessage("Success");
+		
+		return contributionsSummary;
 	}
 	
-	return worklogIdList;
-    }
+	/**
+	 * Retrieve a list of work log ids
+	 */
+	@SuppressWarnings("unchecked")
+	private List<Long> getTimeWorked(Timestamp startDate, Timestamp endDate) {
+
+		logger.error("getTimeWorked startDate "
+				+ startDate + ", endDate " + endDate);		
+		
+		List<Long> worklogIdList = Lists.newLinkedList();
+
+		List<EntityCondition> expressions = new ArrayList<EntityCondition>();
+
+		expressions.add(new EntityExpr("startdate",
+				EntityOperator.GREATER_THAN_EQUAL_TO, startDate));
+		expressions.add(new EntityExpr("startdate", EntityOperator.LESS_THAN,
+				endDate));
+
+		EntityCondition condition = new EntityConditionList(expressions,
+				EntityOperator.AND);
+
+		for (GenericValue value : genericDelegator.findByCondition(
+				OfBizWorklogStore.WORKLOG_ENTITY, condition,
+				EasyList.build("id"), EasyList.build())) {
+			worklogIdList.add(value.getLong("id"));
+
+		}
+
+		return worklogIdList;
+	}
 
 }
