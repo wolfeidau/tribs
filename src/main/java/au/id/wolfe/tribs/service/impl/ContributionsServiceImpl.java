@@ -29,7 +29,7 @@ import org.ofbiz.core.entity.GenericValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import au.id.wolfe.tribs.data.ContributionsSummary;
+import au.id.wolfe.tribs.data.ContributionsReport;
 import au.id.wolfe.tribs.data.UserContribution;
 import au.id.wolfe.tribs.service.ContributionsService;
 
@@ -46,7 +46,7 @@ import com.google.common.collect.Lists;
 /**
  * 
  * Service logic which interacts with JIRA API.
- *
+ * 
  */
 public class ContributionsServiceImpl implements ContributionsService {
 
@@ -68,7 +68,7 @@ public class ContributionsServiceImpl implements ContributionsService {
 
     }
 
-    public ContributionsSummary getAllUserContributions() {
+    public ContributionsReport getAllUserContributions() {
 
         logger.error("Retrieving all contributions");
 
@@ -78,26 +78,24 @@ public class ContributionsServiceImpl implements ContributionsService {
 
     }
 
-    public ContributionsSummary getUserContributionsForPeriod(Date startDate,
+    public ContributionsReport getUserContributionsForPeriod(Date startDate,
             Date endDate) {
 
         logger.error("Retrieving all contributions for given startDate "
                 + startDate + ", endDate " + endDate);
 
-        ContributionsSummary contributionsSummary = new ContributionsSummary();
+        ContributionsReport contributionsReport = new ContributionsReport();
 
         List<Long> genericValues = getTimeWorked(
                 new Timestamp(startDate.getTime()),
                 new Timestamp(endDate.getTime()));
 
         for (Long gv : genericValues) {
-            logger.info("id " + gv);
             Worklog worklog = worklogManager.getById(gv);
-            contributionsSummary.addUserContribution(worklog.getAuthor(),
-                    worklog.getAuthorFullName());
 
-            UserContribution userContribution = contributionsSummary
-                    .userContributionByUserId(worklog.getAuthor());
+            UserContribution userContribution = contributionsReport
+                    .addAndReturnUserContribution(worklog.getAuthor(),
+                            worklog.getAuthorFullName());
 
             Project project = worklog.getIssue().getProjectObject();
 
@@ -106,10 +104,10 @@ public class ContributionsServiceImpl implements ContributionsService {
 
         }
 
-        contributionsSummary.setCode(200);
-        contributionsSummary.setMessage("Success");
+        contributionsReport.setCode(200);
+        contributionsReport.setMessage("Success");
 
-        return contributionsSummary;
+        return contributionsReport;
     }
 
     /**

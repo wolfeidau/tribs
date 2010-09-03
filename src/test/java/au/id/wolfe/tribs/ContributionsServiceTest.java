@@ -23,7 +23,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import au.id.wolfe.tribs.data.ContributionsSummary;
+import au.id.wolfe.tribs.data.ContributionsReport;
 import au.id.wolfe.tribs.service.ContributionsService;
 import au.id.wolfe.tribs.service.impl.ContributionsServiceImpl;
 
@@ -55,7 +55,7 @@ public class ContributionsServiceTest {
 
         ContributionsService contributionsService = getContributionsService();
 
-        ContributionsSummary userContributions = contributionsService
+        ContributionsReport userContributions = contributionsService
                 .getAllUserContributions();
 
         assertNotNull(userContributions);

@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import au.id.wolfe.tribs.data.ContributionsSummary;
+import au.id.wolfe.tribs.data.ContributionsReport;
 import au.id.wolfe.tribs.service.ContributionsService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -43,17 +43,17 @@ public class ContributionsResourceTest {
     @Test
     public void testGetAllUserContributions() throws Exception {
 
-        ContributionsSummary contributionsSummary = new ContributionsSummary();
+        ContributionsReport ContributionsReport = new ContributionsReport();
 
         ContributionsResource contributionsResource = getContributionsResource();
 
         when(contributionsService.getAllUserContributions()).thenReturn(
-                contributionsSummary);
+                ContributionsReport);
 
-        ContributionsSummary contributionsSummaryResponse = contributionsResource
+        ContributionsReport ContributionsReportResponse = contributionsResource
                 .getAllUserContributions();
 
-        assertEquals(contributionsSummary, contributionsSummaryResponse);
+        assertEquals(ContributionsReport, ContributionsReportResponse);
 
         verify(contributionsService).getAllUserContributions();
 
@@ -67,19 +67,19 @@ public class ContributionsResourceTest {
         Date endDate = DateUtils.parseDate("2010-02-01",
                 new String[] { ISO8601_DATE_PATTERN });
 
-        ContributionsSummary contributionsSummary = new ContributionsSummary();
+        ContributionsReport ContributionsReport = new ContributionsReport();
 
         ContributionsResource contributionsResource = getContributionsResource();
 
         when(
                 contributionsService.getUserContributionsForPeriod(
                         eq(startDate), eq(endDate))).thenReturn(
-                contributionsSummary);
+                ContributionsReport);
 
-        ContributionsSummary userContributionsResponse = contributionsResource
+        ContributionsReport userContributionsResponse = contributionsResource
                 .getUserContributionsForPeriod("2010-01-01", "2010-02-01");
 
-        assertEquals(contributionsSummary, userContributionsResponse);
+        assertEquals(ContributionsReport, userContributionsResponse);
 
         verify(contributionsService).getUserContributionsForPeriod(
                 eq(startDate), eq(endDate));

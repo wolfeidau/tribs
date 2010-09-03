@@ -20,29 +20,22 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlType;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 /**
  * 
- * Data object which contains a list of projects which a user contributed time to.
- *
+ * Data object which contains a list of projects which a user contributed time
+ * to.
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "UserContribution")
 public class UserContribution {
 
     private String userid;
     private String fullName;
 
-    @XmlElementWrapper(name = "ProjectTimeSpentList")
-    @XmlElement(name = "ProjectTimeSpent")
-    private List<ProjectTimeSpent> projectTimeSpentList = Lists.newLinkedList();
+    private List<ProjectTimeSpent> projectTimeSpentList = Lists.newArrayList();
 
     public UserContribution() {
     }
@@ -72,26 +65,18 @@ public class UserContribution {
         return projectTimeSpentList;
     }
 
-    public boolean addOrUpdateProjectHours(final String projectName,
-            final String projectKey, final Long timeworked) {
+    public boolean addOrUpdateProjectHours(String projectName,
+            String projectKey, Long timeworked) {
 
-        Iterable<ProjectTimeSpent> phlist = Iterables.filter(
-                projectTimeSpentList, new Predicate<ProjectTimeSpent>() {
-                    public boolean apply(ProjectTimeSpent input) {
-                        return input.getProjectKey().equals(projectKey);
-                    }
-
-                });
-
-        if (phlist.iterator().hasNext()) {
-            // add the hours to the existing record.
-            phlist.iterator().next().addHours(timeworked);
-            return false;
-        } else {
-            projectTimeSpentList.add(new ProjectTimeSpent(projectName,
-                    projectKey, timeworked));
-            return true;
+        for (ProjectTimeSpent pts : projectTimeSpentList) {
+            if (pts.getProjectKey().equals(projectKey)) {
+                pts.addHours(timeworked);
+                return false;
+            }
         }
+
+        return projectTimeSpentList.add(new ProjectTimeSpent(projectName,
+                projectKey, timeworked));
 
     }
 

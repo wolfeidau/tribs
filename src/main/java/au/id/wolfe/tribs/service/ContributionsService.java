@@ -18,7 +18,7 @@ package au.id.wolfe.tribs.service;
 
 import java.util.Date;
 
-import au.id.wolfe.tribs.data.ContributionsSummary;
+import au.id.wolfe.tribs.data.ContributionsReport;
 
 /**
  * 
@@ -27,9 +27,9 @@ import au.id.wolfe.tribs.data.ContributionsSummary;
  */
 public interface ContributionsService {
 
-    ContributionsSummary getAllUserContributions();
+    ContributionsReport getAllUserContributions();
 
-    ContributionsSummary getUserContributionsForPeriod(Date startDate,
+    ContributionsReport getUserContributionsForPeriod(Date startDate,
             Date endDate);
 
 }

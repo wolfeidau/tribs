@@ -27,7 +27,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang.time.DateUtils;
 
-import au.id.wolfe.tribs.data.ContributionsSummary;
+import au.id.wolfe.tribs.data.ContributionsReport;
 import au.id.wolfe.tribs.service.ContributionsService;
 
 import com.atlassian.plugins.rest.common.security.AnonymousAllowed;
@@ -52,7 +52,7 @@ public class ContributionsResource {
     @Path("/all")
     @AnonymousAllowed
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public ContributionsSummary getAllUserContributions() {
+    public ContributionsReport getAllUserContributions() {
         return contributionsService.getAllUserContributions();
 
     }
@@ -61,7 +61,7 @@ public class ContributionsResource {
     @Path("/period")
     @AnonymousAllowed
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public ContributionsSummary getUserContributionsForPeriod(
+    public ContributionsReport getUserContributionsForPeriod(
             @QueryParam("startDate") String startDate,
             @QueryParam("endDate") String endDate) {
 
@@ -72,7 +72,7 @@ public class ContributionsResource {
             endDateVal = DateUtils.parseDate(endDate,
                     new String[] { ISO8601_DATE_PATTERN });
         } catch (ParseException e) {
-            return new ContributionsSummary(e.getMessage(), 500);
+            return new ContributionsReport(e.getMessage(), 500);
         }
         return contributionsService.getUserContributionsForPeriod(startDateVal,
                 endDateVal);

@@ -23,7 +23,7 @@ import java.util.NoSuchElementException;
 
 import org.junit.Test;
 
-public class ContributionsSummaryTest {
+public class ContributionsReportTest {
 
     @Test
     public void testAddingNewUserContributions() {
@@ -37,28 +37,28 @@ public class ContributionsSummaryTest {
 
         boolean created;
 
-        ContributionsSummary contributionsSummary = new ContributionsSummary();
+        ContributionsReport ContributionsReport = new ContributionsReport();
 
-        assertFalse(contributionsSummary.checkUserContribitionsExists(author));
+        assertFalse(ContributionsReport.checkUserContribitionsExists(author));
 
-        created = contributionsSummary.addUserContribution("markw",
+        created = ContributionsReport.addUserContribution("markw",
                 "Mark Wolfe");
 
         assertTrue(created);
-        assertTrue(contributionsSummary.checkUserContribitionsExists(author));
+        assertTrue(ContributionsReport.checkUserContribitionsExists(author));
 
-        created = contributionsSummary.addUserContribution("markw",
+        created = ContributionsReport.addUserContribution("markw",
                 "Mark Wolfe");
 
         assertFalse(created);
-        assertTrue(contributionsSummary.checkUserContribitionsExists(author));
+        assertTrue(ContributionsReport.checkUserContribitionsExists(author));
 
     }
 
     @Test(expected = NoSuchElementException.class)
     public void testUserContributionNotFound() {
-        ContributionsSummary contributionsSummary = new ContributionsSummary();
+        ContributionsReport ContributionsReport = new ContributionsReport();
 
-        contributionsSummary.userContributionByUserId("markw");
+        ContributionsReport.userContributionByUserId("markw");
     }
 }

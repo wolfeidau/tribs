@@ -31,5 +31,5 @@
     <component key="contributionsService"
         name="Contributions Service"
         class="au.id.wolfe.tribs.service.impl.ContributionsServiceImpl"/>
-	
+
 </atlassian-plugin>
