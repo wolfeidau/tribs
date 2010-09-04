@@ -67,24 +67,6 @@ public class ContributionsReport {
         this.message = message;
     }
 
-    public boolean checkUserContribitionsExists(String userid) {
-
-        for (UserContribution uc : userContributions) {
-            return uc.getUserid().equals(userid);
-        }
-
-        return false;
-    }
-
-    public boolean addUserContribution(String userid, String fullName) {
-        if (checkUserContribitionsExists(userid)) {
-            return false;
-        } else {
-            return userContributions
-                    .add(new UserContribution(userid, fullName));
-        }
-    }
-
     public UserContribution addAndReturnUserContribution(String userid,
             String fullName) {
         for (UserContribution uc : userContributions) {

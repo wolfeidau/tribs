@@ -32,4 +32,8 @@
         name="Contributions Service"
         class="au.id.wolfe.tribs.service.impl.ContributionsServiceImpl"/>
 
+    <component key="workLogService"
+        name="Work Log Service"
+        class="au.id.wolfe.tribs.service.impl.WorkLogServiceImpl"/>
+
 </atlassian-plugin>

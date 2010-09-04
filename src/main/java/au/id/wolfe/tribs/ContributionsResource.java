@@ -30,12 +30,11 @@ import org.apache.commons.lang.time.DateUtils;
 import au.id.wolfe.tribs.data.ContributionsReport;
 import au.id.wolfe.tribs.service.ContributionsService;
 
-import com.atlassian.plugins.rest.common.security.AnonymousAllowed;
-
 /**
  * 
- * Web resource which exposed in JIRA with methods relating to user contributions.
- *
+ * Web resource which exposed in JIRA with methods relating to user
+ * contributions.
+ * 
  */
 @Path("/contributions")
 public class ContributionsResource {
@@ -50,16 +49,13 @@ public class ContributionsResource {
 
     @GET
     @Path("/all")
-    @AnonymousAllowed
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public ContributionsReport getAllUserContributions() {
         return contributionsService.getAllUserContributions();
-
     }
 
     @GET
     @Path("/period")
-    @AnonymousAllowed
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public ContributionsReport getUserContributionsForPeriod(
             @QueryParam("startDate") String startDate,

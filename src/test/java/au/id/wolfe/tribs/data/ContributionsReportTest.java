@@ -16,42 +16,45 @@
 
 package au.id.wolfe.tribs.data;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.util.NoSuchElementException;
 
 import org.junit.Test;
 
+import au.id.wolfe.tribs.fixtures.UserContributionFixture;
+
 public class ContributionsReportTest {
 
     @Test
-    public void testAddingNewUserContributions() {
+    public void testAddingNewUserContributionsWithNoDuplication() {
 
         // When a new author is found in the work log we need to add a new user
         // contribution
         // to the object.
         // author, authorFullName,
 
-        String author = "markw";
+        ContributionsReport contributionsReport = new ContributionsReport();
 
-        boolean created;
+        UserContribution userContribution = contributionsReport
+                .addAndReturnUserContribution(UserContributionFixture
+                        .getUserContributionWithData().getUserid(),
+                        UserContributionFixture.getUserContributionWithData()
+                                .getFullName());
 
-        ContributionsReport ContributionsReport = new ContributionsReport();
+        assertEquals(UserContributionFixture.getUserContributionWithData(),
+                userContribution);
+        assertEquals(1, contributionsReport.getUserContributions().size());
 
-        assertFalse(ContributionsReport.checkUserContribitionsExists(author));
+        UserContribution anotherUserContribution = contributionsReport
+                .addAndReturnUserContribution(UserContributionFixture
+                        .getUserContributionWithData().getUserid(),
+                        UserContributionFixture.getUserContributionWithData()
+                                .getFullName());
 
-        created = ContributionsReport.addUserContribution("markw",
-                "Mark Wolfe");
-
-        assertTrue(created);
-        assertTrue(ContributionsReport.checkUserContribitionsExists(author));
-
-        created = ContributionsReport.addUserContribution("markw",
-                "Mark Wolfe");
-
-        assertFalse(created);
-        assertTrue(ContributionsReport.checkUserContribitionsExists(author));
+        assertEquals(UserContributionFixture.getUserContributionWithData(),
+                anotherUserContribution);
+        assertEquals(1, contributionsReport.getUserContributions().size());
 
     }
 

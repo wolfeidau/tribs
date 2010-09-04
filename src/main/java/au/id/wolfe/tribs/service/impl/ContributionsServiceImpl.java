@@ -45,7 +45,8 @@ import com.google.common.collect.Lists;
 
 /**
  * 
- * Service logic which interacts with JIRA API.
+ * Service which provides access to work log information in the form of
+ * aggregated reports from the JIRA API.
  * 
  */
 public class ContributionsServiceImpl implements ContributionsService {
