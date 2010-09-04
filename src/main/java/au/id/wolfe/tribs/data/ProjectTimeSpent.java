@@ -19,8 +19,9 @@ package au.id.wolfe.tribs.data;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import com.atlassian.gzipfilter.org.apache.commons.lang.builder.EqualsBuilder;
-import com.atlassian.gzipfilter.org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
  * 
@@ -49,16 +50,8 @@ public class ProjectTimeSpent {
         return projectName;
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
     public String getProjectKey() {
         return projectKey;
-    }
-
-    public void setProjectKey(String projectKey) {
-        this.projectKey = projectKey;
     }
 
     public Long getTimespent() {
@@ -71,7 +64,6 @@ public class ProjectTimeSpent {
 
     public void addHours(Long timeworked) {
         this.timespent = this.timespent + timeworked;
-
     }
 
     @Override

@@ -25,10 +25,12 @@ import com.atlassian.jira.project.ProjectManager;
 
 import au.id.wolfe.tribs.data.WorkLogReport;
 import au.id.wolfe.tribs.service.WorkLogService;
+
 /**
  * 
- * Service which provides access to work log detail information from the JIRA API.
- *
+ * Service which provides access to work log detail information from the JIRA
+ * API.
+ * 
  */
 public class WorkLogServiceImpl implements WorkLogService {
 
@@ -47,10 +49,10 @@ public class WorkLogServiceImpl implements WorkLogService {
         this.worklogManager = worklogManager;
     }
 
-    public WorkLogReport getUserProjectWorkLogReportForPeriod(String userid,
+    public WorkLogReport getUserProjectWorkLogsForPeriod(String userid,
             String projectKey, Date startDate, Date endDate) {
 
-        return null;
+        return new WorkLogReport();
     }
 
 }

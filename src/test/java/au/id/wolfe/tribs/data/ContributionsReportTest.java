@@ -30,9 +30,7 @@ public class ContributionsReportTest {
     public void testAddingNewUserContributionsWithNoDuplication() {
 
         // When a new author is found in the work log we need to add a new user
-        // contribution
-        // to the object.
-        // author, authorFullName,
+        // contribution, this will be located based on the author attribute.
 
         ContributionsReport contributionsReport = new ContributionsReport();
 

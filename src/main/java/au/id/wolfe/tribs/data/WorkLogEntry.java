@@ -21,6 +21,9 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 /**
  * 
  * This data object contains provides flattened view of the JIRA work log items
@@ -40,89 +43,62 @@ public class WorkLogEntry {
     private Date created;
     private Date updated;
 
-    /**
-     * @return the id
-     */
+    public WorkLogEntry() {
+    }
+
+    public WorkLogEntry(Long id, String authorUserid, String authorFullName,
+            Long timeSpent, String issueKey, String issueDescription,
+            Date created, Date updated) {
+        this.id = id;
+        this.authorUserid = authorUserid;
+        this.authorFullName = authorFullName;
+        this.timeSpent = timeSpent;
+        this.issueKey = issueKey;
+        this.issueDescription = issueDescription;
+        this.created = created;
+        this.updated = updated;
+    }
+
     public Long getId() {
         return id;
-    }
-
-    /**
-     * @param id
-     *            the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public WorkLogEntry() {
     }
 
     public String getAuthorUserid() {
         return authorUserid;
     }
 
-    public void setAuthorUserid(String authorUserid) {
-        this.authorUserid = authorUserid;
-    }
-
     public String getAuthorFullName() {
         return authorFullName;
-    }
-
-    public void setAuthorFullName(String authorFullName) {
-        this.authorFullName = authorFullName;
     }
 
     public Long getTimeSpent() {
         return timeSpent;
     }
 
-    public void setTimeSpent(Long timeSpent) {
-        this.timeSpent = timeSpent;
-    }
-
     public String getIssueKey() {
         return issueKey;
-    }
-
-    public void setIssueKey(String issueKey) {
-        this.issueKey = issueKey;
     }
 
     public String getIssueDescription() {
         return issueDescription;
     }
 
-    public void setIssueDescription(String issueDescription) {
-        this.issueDescription = issueDescription;
-    }
-
-    /**
-     * @return the created
-     */
     public Date getCreated() {
         return created;
     }
 
-    /**
-     * @param created the created to set
-     */
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    /**
-     * @return the updated
-     */
     public Date getUpdated() {
         return updated;
     }
 
-    /**
-     * @param updated the updated to set
-     */
-    public void setUpdated(Date updated) {
-        this.updated = updated;
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
 }

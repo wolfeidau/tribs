@@ -22,8 +22,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import com.atlassian.gzipfilter.org.apache.commons.lang.builder.HashCodeBuilder;
 import com.google.common.collect.Lists;
 
 /**
@@ -52,16 +52,8 @@ public class UserContribution {
         return userid;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
-    }
-
     public String getFullName() {
         return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 
     public List<ProjectTimeSpent> getProjectTimeSpentList() {
@@ -83,24 +75,15 @@ public class UserContribution {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this, new String[]{"projectTimeSpentList"}); 
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj, new String[]{"projectTimeSpentList"});
+        return EqualsBuilder.reflectionEquals(this, obj,
+                new String[] { "projectTimeSpentList" });
     }
 
 }

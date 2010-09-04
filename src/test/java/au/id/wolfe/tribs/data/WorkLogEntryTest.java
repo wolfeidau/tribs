@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package au.id.wolfe.tribs.service;
+package au.id.wolfe.tribs.data;
 
-import java.util.Date;
+import static org.junit.Assert.assertEquals;
 
-import au.id.wolfe.tribs.data.WorkLogReport;
+import org.junit.Test;
 
-/**
- * 
- * Work log related service methods.
- * 
- */
-public interface WorkLogService {
+import au.id.wolfe.tribs.fixtures.WorkLogEntryFixture;
 
-    WorkLogReport getUserProjectWorkLogsForPeriod(String userid,
-            String projectKey, Date startDate, Date endDate);
+public class WorkLogEntryTest {
+
+    @Test
+    public void testWorkLogEntryEquals() {
+        WorkLogEntry wlfirst = WorkLogEntryFixture.getWorkLogEntryWithData();
+        WorkLogEntry wlsecond = WorkLogEntryFixture.getWorkLogEntryWithData();
+
+        assertEquals(wlfirst, wlsecond);
+    }
+
 }

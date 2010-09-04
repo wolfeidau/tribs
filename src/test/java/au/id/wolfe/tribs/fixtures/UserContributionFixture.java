@@ -20,8 +20,8 @@ import au.id.wolfe.tribs.data.UserContribution;
 
 public final class UserContributionFixture {
 
-    public static UserContribution getUserContributionWithData(){
+    public static UserContribution getUserContributionWithData() {
         return new UserContribution("markw", "Mark Wolfe");
     }
-    
+
 }

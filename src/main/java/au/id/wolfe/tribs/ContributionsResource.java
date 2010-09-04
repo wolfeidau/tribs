@@ -16,19 +16,17 @@
 
 package au.id.wolfe.tribs;
 
-import java.text.ParseException;
-import java.util.Date;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.commons.lang.time.DateUtils;
+import org.springframework.util.Assert;
 
 import au.id.wolfe.tribs.data.ContributionsReport;
 import au.id.wolfe.tribs.service.ContributionsService;
+import au.id.wolfe.tribs.utils.DateUtils;
 
 /**
  * 
@@ -38,8 +36,6 @@ import au.id.wolfe.tribs.service.ContributionsService;
  */
 @Path("/contributions")
 public class ContributionsResource {
-
-    static final String ISO8601_DATE_PATTERN = "yyyy-MM-dd";
 
     ContributionsService contributionsService;
 
@@ -61,17 +57,13 @@ public class ContributionsResource {
             @QueryParam("startDate") String startDate,
             @QueryParam("endDate") String endDate) {
 
-        Date startDateVal = null, endDateVal = null;
-        try {
-            startDateVal = DateUtils.parseDate(startDate,
-                    new String[] { ISO8601_DATE_PATTERN });
-            endDateVal = DateUtils.parseDate(endDate,
-                    new String[] { ISO8601_DATE_PATTERN });
-        } catch (ParseException e) {
-            return new ContributionsReport(e.getMessage(), 500);
-        }
-        return contributionsService.getUserContributionsForPeriod(startDateVal,
-                endDateVal);
+        Assert.hasText(startDate);
+        Assert.hasText(endDate);
+
+        return contributionsService.getUserContributionsForPeriod(
+                DateUtils.parseISO8601Date(startDate),
+                DateUtils.parseISO8601Date(endDate));
 
     }
+
 }

@@ -23,7 +23,7 @@ import au.id.wolfe.tribs.data.ContributionsReport;
 /**
  * 
  * Contributions service methods.
- *
+ * 
  */
 public interface ContributionsService {
 

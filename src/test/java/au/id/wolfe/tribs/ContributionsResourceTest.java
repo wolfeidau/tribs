@@ -23,7 +23,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Date;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -31,11 +30,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import au.id.wolfe.tribs.data.ContributionsReport;
 import au.id.wolfe.tribs.service.ContributionsService;
+import au.id.wolfe.tribs.utils.DateUtils;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ContributionsResourceTest {
-
-    String ISO8601_DATE_PATTERN = "yyyy-MM-dd";
 
     @Mock
     ContributionsService contributionsService;
@@ -62,10 +60,8 @@ public class ContributionsResourceTest {
     @Test
     public void testGetUserContributionsForPeriod() throws Exception {
 
-        Date startDate = DateUtils.parseDate("2010-01-01",
-                new String[] { ISO8601_DATE_PATTERN });
-        Date endDate = DateUtils.parseDate("2010-02-01",
-                new String[] { ISO8601_DATE_PATTERN });
+        Date startDate = DateUtils.parseISO8601Date("2010-01-01");
+        Date endDate = DateUtils.parseISO8601Date("2010-02-01");
 
         ContributionsReport ContributionsReport = new ContributionsReport();
 
@@ -84,6 +80,44 @@ public class ContributionsResourceTest {
         verify(contributionsService).getUserContributionsForPeriod(
                 eq(startDate), eq(endDate));
 
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testContainsTextValidationIsThrowForPeriodStartDate()
+            throws Exception {
+
+        ContributionsResource contributionsResource = getContributionsResource();
+
+        contributionsResource.getUserContributionsForPeriod("", "2010-01-01");
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testContainsTextValidationIsThrowForPeriodEndDate()
+            throws Exception {
+
+        ContributionsResource contributionsResource = getContributionsResource();
+
+        contributionsResource.getUserContributionsForPeriod("2010-01-01", "");
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testContainsDateParseIsThrowForPeriodStartDate()
+            throws Exception {
+
+        ContributionsResource contributionsResource = getContributionsResource();
+
+        contributionsResource.getUserContributionsForPeriod("crappydate", "");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testContainsDateParseIsThrowForPeriodEndDate() throws Exception {
+
+        ContributionsResource contributionsResource = getContributionsResource();
+
+        contributionsResource.getUserContributionsForPeriod("2010-01-01",
+                "crappydate");
     }
 
     private ContributionsResource getContributionsResource() {

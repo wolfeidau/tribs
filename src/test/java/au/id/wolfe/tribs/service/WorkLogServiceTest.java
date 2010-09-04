@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-package au.id.wolfe.tribs;
+package au.id.wolfe.tribs.service;
 
-import static org.junit.Assert.assertNotNull;
+import static junit.framework.Assert.assertNotNull;
+
+import java.util.Date;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
-import au.id.wolfe.tribs.data.ContributionsReport;
-import au.id.wolfe.tribs.service.ContributionsService;
-import au.id.wolfe.tribs.service.impl.ContributionsServiceImpl;
+import au.id.wolfe.tribs.data.WorkLogReport;
+import au.id.wolfe.tribs.service.impl.WorkLogServiceImpl;
 
 import com.atlassian.jira.issue.IssueManager;
 import com.atlassian.jira.issue.worklog.WorklogManager;
 import com.atlassian.jira.ofbiz.OfBizDelegator;
 import com.atlassian.jira.project.ProjectManager;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ContributionsServiceTest {
+public class WorkLogServiceTest {
 
     @Mock
     ProjectManager projectManager;
@@ -48,22 +46,18 @@ public class ContributionsServiceTest {
     OfBizDelegator genericDelegator;
 
     @Test
-    public void testAllUserContributions() {
+    public void testGetUserProjectWorkLogsForPeriod() throws Exception {
+        WorkLogService workLogService = getWorkLogService();
 
-        // when(genericDelegator.findByCondition(eq(OfBizWorklogStore.WORKLOG_ENTITY),
-        // any(), eq(EasyList.build())))
+        WorkLogReport workLogReport = workLogService
+                .getUserProjectWorkLogsForPeriod("markw", "STAR", new Date(),
+                        new Date());
 
-        ContributionsService contributionsService = getContributionsService();
-
-        ContributionsReport userContributions = contributionsService
-                .getAllUserContributions();
-
-        assertNotNull(userContributions);
+        assertNotNull(workLogReport);
     }
 
-    private ContributionsService getContributionsService() {
-        return new ContributionsServiceImpl(projectManager, genericDelegator,
+    private WorkLogService getWorkLogService() {
+        return new WorkLogServiceImpl(projectManager, genericDelegator,
                 issueManager, worklogManager);
     }
-
 }

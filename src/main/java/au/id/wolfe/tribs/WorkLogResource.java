@@ -18,21 +18,28 @@ package au.id.wolfe.tribs;
 
 import javax.ws.rs.Path;
 
+import au.id.wolfe.tribs.data.WorkLogReport;
 import au.id.wolfe.tribs.service.WorkLogService;
 
 /**
  * 
- * Web resource which exposed in JIRA with methods relating to user
- * work log entries.
+ * Web resource which exposed in JIRA with methods relating to user work log
+ * entries.
  * 
  */
 @Path("/worklog")
 public class WorkLogResource {
-    
+
     WorkLogService workLogService;
 
     public WorkLogResource(WorkLogService workLogService) {
         this.workLogService = workLogService;
+    }
+
+    public WorkLogReport getUserProjectWorkLogsForPeriod(String userid,
+            String projectKey, String startDate, String endDate) {
+
+        return new WorkLogReport();
     }
 
 }

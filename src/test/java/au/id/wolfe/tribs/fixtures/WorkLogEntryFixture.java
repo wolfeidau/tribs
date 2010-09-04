@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package au.id.wolfe.tribs.service;
+package au.id.wolfe.tribs.fixtures;
 
 import java.util.Date;
 
-import au.id.wolfe.tribs.data.WorkLogReport;
+import au.id.wolfe.tribs.data.WorkLogEntry;
 
-/**
- * 
- * Work log related service methods.
- * 
- */
-public interface WorkLogService {
+public final class WorkLogEntryFixture {
 
-    WorkLogReport getUserProjectWorkLogsForPeriod(String userid,
-            String projectKey, Date startDate, Date endDate);
+    public static WorkLogEntry getWorkLogEntryWithData() {
+        return new WorkLogEntry(1L, "markw", "Mark Wolfe", 100L, "BBB-001",
+                "Some Description", new Date(), new Date());
+    }
+
 }
