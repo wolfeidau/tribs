@@ -13,35 +13,38 @@ This sample has two projects in JIRA and two users, each user has logged work to
 The URL to retrieve a summary of contributions is as follows:
 
 * This URL will retrieve all contributions to projects by all users.
-<pre><code>
+<code>
 http://localhost:2990/jira/rest/tribs-rest/1.0/contributions/all.xml?os_username=admin&os_password=admin
-</pre></code>
+</code>
 
 * This will do the same for a given period.
-<pre><code>
+<code>
 http://localhost:2990/jira/rest/tribs-rest/1.0/contributions/period.xml?os_username=admin&os_password=admin&startDate=2010-01-01&endDate=2010-02-01
-</pre></code>
+</code>
  
 A sample of the output is as follows.
-<code>
-&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
-&lt;ContributionsReport&gt;
-  &lt;code&gt;200&lt;/code&gt;
-  &lt;message&gt;Success&lt;/message&gt;
-  &lt;userContributions&gt;
-    &lt;userid&gt;admin&lt;/userid&gt;
-    &lt;fullName&gt;admin&lt;/fullName&gt;
-    &lt;projectTimeSpentList&gt;
-      &lt;projectName&gt;STAR4 Application&lt;/projectName&gt;
-      &lt;projectKey&gt;STAR&lt;/projectKey&gt;
-      &lt;timespent&gt;7200&lt;/timespent&gt;
-    &lt;/projectTimeSpentList&gt;
-    &lt;projectTimeSpentList&gt;
-      &lt;projectName&gt;fxassetman&lt;/projectName&gt;
-      &lt;projectKey&gt;FXA&lt;/projectKey&gt;
-      &lt;timespent&gt;7200&lt;/timespent&gt;
-    &lt;/projectTimeSpentList&gt;
-  &lt;/userContributions&gt;
-&lt;/ContributionsReport&gt;
-</code>
+<code><pre>
+{
+   "code":200,
+   "message":"Success",
+   "userContributions":[
+      {
+         "userid":"admin",
+         "fullName":"admin",
+         "projectTimeSpentList":[
+            {
+               "projectName":"STAR4 Application",
+               "projectKey":"STAR",
+               "timespent":7200
+            },
+            {
+               "projectName":"fxassetman",
+               "projectKey":"FXA",
+               "timespent":7200
+            }
+         ]
+      }
+   ]
+}
+</pre></code>
 
