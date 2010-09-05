@@ -23,25 +23,25 @@ http://localhost:2990/jira/rest/tribs-rest/1.0/contributions/period.xml?os_usern
 </pre></code>
  
 A sample of the output is as follows.
-<code><pre>
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ContributionsReport>
-  <code>200</code>
-  <message>Success</message>
-  <userContributions>
-    <userid>admin</userid>
-    <fullName>admin</fullName>
-    <projectTimeSpentList>
-      <projectName>STAR4 Application</projectName>
-      <projectKey>STAR</projectKey>
-      <timespent>7200</timespent>
-    </projectTimeSpentList>
-    <projectTimeSpentList>
-      <projectName>fxassetman</projectName>
-      <projectKey>FXA</projectKey>
-      <timespent>7200</timespent>
-    </projectTimeSpentList>
-  </userContributions>
-</ContributionsReport>
-</pre></code>
+<code>
+&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
+&lt;ContributionsReport&gt;
+  &lt;code&gt;200&lt;/code&gt;
+  &lt;message&gt;Success&lt;/message&gt;
+  &lt;userContributions&gt;
+    &lt;userid&gt;admin&lt;/userid&gt;
+    &lt;fullName&gt;admin&lt;/fullName&gt;
+    &lt;projectTimeSpentList&gt;
+      &lt;projectName&gt;STAR4 Application&lt;/projectName&gt;
+      &lt;projectKey&gt;STAR&lt;/projectKey&gt;
+      &lt;timespent&gt;7200&lt;/timespent&gt;
+    &lt;/projectTimeSpentList&gt;
+    &lt;projectTimeSpentList&gt;
+      &lt;projectName&gt;fxassetman&lt;/projectName&gt;
+      &lt;projectKey&gt;FXA&lt;/projectKey&gt;
+      &lt;timespent&gt;7200&lt;/timespent&gt;
+    &lt;/projectTimeSpentList&gt;
+  &lt;/userContributions&gt;
+&lt;/ContributionsReport&gt;
+</code>
 
