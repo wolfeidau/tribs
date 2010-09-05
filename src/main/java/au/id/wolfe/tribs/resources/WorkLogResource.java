@@ -16,10 +16,17 @@
 
 package au.id.wolfe.tribs.resources;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+
+import org.springframework.util.Assert;
 
 import au.id.wolfe.tribs.data.WorkLogReport;
 import au.id.wolfe.tribs.service.WorkLogService;
+import au.id.wolfe.tribs.utils.DateUtils;
 
 /**
  * 
@@ -36,10 +43,23 @@ public class WorkLogResource {
         this.workLogService = workLogService;
     }
 
-    public WorkLogReport getUserProjectWorkLogsForPeriod(String userid,
-            String projectKey, String startDate, String endDate) {
+    @GET
+    @Path("/period")
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public WorkLogReport getUserProjectWorkLogsForPeriod(
+            @QueryParam("userid") String userid,
+            @QueryParam("projectKey") String projectKey,
+            @QueryParam("startDate") String startDate,
+            @QueryParam("endDate") String endDate) {
 
-        return new WorkLogReport();
+        Assert.hasText(userid);
+        Assert.hasText(projectKey);
+        Assert.hasText(startDate);
+        Assert.hasText(endDate);
+
+        return workLogService.getUserProjectWorkLogsForPeriod(userid,
+                projectKey, DateUtils.parseISO8601Date(startDate),
+                DateUtils.parseISO8601Date(endDate));
     }
 
 }

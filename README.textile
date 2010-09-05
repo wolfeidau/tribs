@@ -58,3 +58,5 @@ pre. {
    ]
 }
 
+
+bc. worklog/period.xml?os_username=admin&os_password=admin&startDate=2010-01-01&endDate=2010-02-01&userid=admin&projectKey=STAR

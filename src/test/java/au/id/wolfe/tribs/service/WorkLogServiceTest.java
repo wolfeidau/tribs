@@ -17,20 +17,31 @@
 package au.id.wolfe.tribs.service;
 
 import static junit.framework.Assert.assertNotNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import au.id.wolfe.tribs.data.WorkLogReport;
+import au.id.wolfe.tribs.repository.WorkLogRepository;
 import au.id.wolfe.tribs.service.impl.WorkLogServiceImpl;
 
+import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.IssueManager;
+import com.atlassian.jira.issue.worklog.Worklog;
 import com.atlassian.jira.issue.worklog.WorklogManager;
-import com.atlassian.jira.ofbiz.OfBizDelegator;
+import com.atlassian.jira.project.Project;
 import com.atlassian.jira.project.ProjectManager;
+import com.google.common.collect.Lists;
 
+@RunWith(MockitoJUnitRunner.class)
 public class WorkLogServiceTest {
 
     @Mock
@@ -43,21 +54,45 @@ public class WorkLogServiceTest {
     WorklogManager worklogManager;
 
     @Mock
-    OfBizDelegator genericDelegator;
+    WorkLogRepository workLogRepository;
 
     @Test
     public void testGetUserProjectWorkLogsForPeriod() throws Exception {
         WorkLogService workLogService = getWorkLogService();
 
+        when(
+                workLogRepository.getWorkLogIdListForPeriod(
+                        any(Timestamp.class), any(Timestamp.class)))
+                .thenReturn(Lists.newArrayList(1L));
+
+        Worklog worklog = mock(Worklog.class);
+        Issue issue = mock(Issue.class);
+        Project project = mock(Project.class);
+
+        when(worklog.getIssue()).thenReturn(issue);
+        when(issue.getProjectObject()).thenReturn(project);
+
+        when(worklog.getAuthor()).thenReturn("markw");
+        when(worklog.getAuthorFullName()).thenReturn("Mark Wolfe");
+        when(worklog.getCreated()).thenReturn(new Date());
+        when(worklog.getUpdated()).thenReturn(new Date());
+
+        when(issue.getKey()).thenReturn("TEST-1");
+        when(issue.getDescription()).thenReturn("TEST");
+
+        when(project.getKey()).thenReturn("TEST");
+
+        when(worklogManager.getById(1L)).thenReturn(worklog);
+
         WorkLogReport workLogReport = workLogService
-                .getUserProjectWorkLogsForPeriod("markw", "STAR", new Date(),
+                .getUserProjectWorkLogsForPeriod("markw", "TEST", new Date(),
                         new Date());
 
         assertNotNull(workLogReport);
     }
 
     private WorkLogService getWorkLogService() {
-        return new WorkLogServiceImpl(projectManager, genericDelegator,
+        return new WorkLogServiceImpl(projectManager, workLogRepository,
                 issueManager, worklogManager);
     }
 }

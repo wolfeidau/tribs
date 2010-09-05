@@ -16,15 +16,19 @@
 
 package au.id.wolfe.tribs.service.impl;
 
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
+
+import au.id.wolfe.tribs.data.WorkLogEntry;
+import au.id.wolfe.tribs.data.WorkLogReport;
+import au.id.wolfe.tribs.repository.WorkLogRepository;
+import au.id.wolfe.tribs.service.WorkLogService;
 
 import com.atlassian.jira.issue.IssueManager;
+import com.atlassian.jira.issue.worklog.Worklog;
 import com.atlassian.jira.issue.worklog.WorklogManager;
-import com.atlassian.jira.ofbiz.OfBizDelegator;
 import com.atlassian.jira.project.ProjectManager;
-
-import au.id.wolfe.tribs.data.WorkLogReport;
-import au.id.wolfe.tribs.service.WorkLogService;
 
 /**
  * 
@@ -38,13 +42,13 @@ public class WorkLogServiceImpl implements WorkLogService {
     WorklogManager worklogManager;
     IssueManager issueManager;
 
-    OfBizDelegator genericDelegator;
+    WorkLogRepository workLogRepository;
 
     public WorkLogServiceImpl(ProjectManager projectManager,
-            OfBizDelegator genericDelegator, IssueManager issueManager,
+            WorkLogRepository workLogRepository, IssueManager issueManager,
             WorklogManager worklogManager) {
         this.projectManager = projectManager;
-        this.genericDelegator = genericDelegator;
+        this.workLogRepository = workLogRepository;
         this.issueManager = issueManager;
         this.worklogManager = worklogManager;
     }
@@ -52,7 +56,32 @@ public class WorkLogServiceImpl implements WorkLogService {
     public WorkLogReport getUserProjectWorkLogsForPeriod(String userid,
             String projectKey, Date startDate, Date endDate) {
 
-        return new WorkLogReport();
+        WorkLogReport workLogReport = new WorkLogReport("Success", 200);
+
+        List<Long> workLogIdValues = workLogRepository
+                .getWorkLogIdListForPeriod(new Timestamp(startDate.getTime()),
+                        new Timestamp(endDate.getTime()));
+
+        for (Long workLogId : workLogIdValues) {
+
+            Worklog worklog = worklogManager.getById(workLogId);
+
+            if (worklog.getAuthor().equals(userid)
+                    && worklog.getIssue().getProjectObject().getKey()
+                            .equals(projectKey)) {
+                
+                workLogReport.getWorkLogEntryList().add(
+                        new WorkLogEntry(worklog.getId(), worklog.getAuthor(),
+                                worklog.getAuthorFullName(), worklog
+                                        .getTimeSpent(), worklog.getIssue()
+                                        .getKey(), worklog.getIssue()
+                                        .getDescription(),
+                                worklog.getCreated(), worklog.getUpdated()));
+            }
+
+        }
+
+        return workLogReport;
     }
 
 }

@@ -36,4 +36,8 @@
         name="Work Log Service"
         class="au.id.wolfe.tribs.service.impl.WorkLogServiceImpl"/>
 
+    <component key="workLogRepository"
+        name="Work Log Repository"
+        class="au.id.wolfe.tribs.repository.impl.WorkLogRepositoryImpl"/>
+
 </atlassian-plugin>
