@@ -23,7 +23,8 @@ http://localhost:2990/jira/rest/tribs-rest/1.0/contributions/period.xml?os_usern
 </code>
  
 A sample of the output is as follows.
-<code><pre>
+<pre>
+<code>
 {
    "code":200,
    "message":"Success",
@@ -46,5 +47,6 @@ A sample of the output is as follows.
       }
    ]
 }
-</pre></code>
+</code>
+</pre>
 
