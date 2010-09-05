@@ -36,7 +36,7 @@ import com.google.common.collect.Lists;
 @XmlRootElement(name = "ContributionsReport")
 public class ContributionsReport {
 
-    @XmlElement(name="status-code")
+    @XmlElement(name = "status-code")
     private Integer code;
     private String message;
 

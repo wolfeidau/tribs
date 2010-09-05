@@ -26,36 +26,39 @@ import java.util.Date;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import au.id.wolfe.tribs.data.ContributionsReport;
 import au.id.wolfe.tribs.repository.WorkLogRepository;
 import au.id.wolfe.tribs.service.impl.ContributionsServiceImpl;
 import au.id.wolfe.tribs.utils.DateUtils;
 
-
 import com.atlassian.jira.issue.Issue;
-import com.atlassian.jira.project.Project;
-import com.atlassian.jira.issue.IssueManager;
 import com.atlassian.jira.issue.worklog.Worklog;
 import com.atlassian.jira.issue.worklog.WorklogManager;
-import com.atlassian.jira.project.ProjectManager;
+import com.atlassian.jira.project.Project;
+import com.atlassian.jira.security.JiraAuthenticationContext;
+import com.atlassian.jira.security.PermissionManager;
+import com.atlassian.jira.security.Permissions;
 import com.google.common.collect.Lists;
+import com.opensymphony.user.User;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(User.class)
 public class ContributionsServiceTest {
-
-    @Mock
-    ProjectManager projectManager;
-
-    @Mock
-    IssueManager issueManager;
 
     @Mock
     WorklogManager worklogManager;
 
     @Mock
     WorkLogRepository workLogRepository;
+    
+    @Mock
+    JiraAuthenticationContext jiraAuthenticationContext;
+
+    @Mock
+    PermissionManager permissionManager;
 
     @Test
     public void testAllUserContributions() {
@@ -71,6 +74,7 @@ public class ContributionsServiceTest {
         Worklog worklog = mock(Worklog.class);
         Issue issue = mock(Issue.class);
         Project project = mock(Project.class);
+        User user = mock(User.class);
         
         when (worklog.getAuthor()).thenReturn("markw");
         when(worklog.getIssue()).thenReturn(issue);
@@ -79,6 +83,8 @@ public class ContributionsServiceTest {
         when(project.getName()).thenReturn("TEST");
         
         when(worklogManager.getById(1L)).thenReturn(worklog);
+        when(jiraAuthenticationContext.getUser()).thenReturn(user);
+        when(permissionManager.hasPermission(Permissions.BROWSE, project, user)).thenReturn(true);
 
         ContributionsReport userContributions = contributionsService
                 .getAllUserContributions();
@@ -87,8 +93,8 @@ public class ContributionsServiceTest {
     }
 
     private ContributionsService getContributionsService() {
-        return new ContributionsServiceImpl(projectManager, workLogRepository,
-                issueManager, worklogManager);
+        return new ContributionsServiceImpl(workLogRepository,
+                worklogManager, jiraAuthenticationContext, permissionManager);
     }
 
 }

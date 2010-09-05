@@ -28,11 +28,13 @@ import au.id.wolfe.tribs.data.UserContribution;
 import au.id.wolfe.tribs.repository.WorkLogRepository;
 import au.id.wolfe.tribs.service.ContributionsService;
 
-import com.atlassian.jira.issue.IssueManager;
 import com.atlassian.jira.issue.worklog.Worklog;
 import com.atlassian.jira.issue.worklog.WorklogManager;
 import com.atlassian.jira.project.Project;
-import com.atlassian.jira.project.ProjectManager;
+import com.atlassian.jira.security.JiraAuthenticationContext;
+import com.atlassian.jira.security.PermissionManager;
+import com.atlassian.jira.security.Permissions;
+import com.opensymphony.user.User;
 
 /**
  * 
@@ -42,26 +44,29 @@ import com.atlassian.jira.project.ProjectManager;
  */
 public class ContributionsServiceImpl implements ContributionsService {
 
-    Logger logger = LoggerFactory.getLogger(ContributionsServiceImpl.class);
+    private final Logger logger = LoggerFactory
+            .getLogger(ContributionsServiceImpl.class);
 
-    ProjectManager projectManager;
-    WorklogManager worklogManager;
-    IssueManager issueManager;
-    WorkLogRepository workLogRepository;
+    private final WorklogManager worklogManager;
+    private final WorkLogRepository workLogRepository;
+    private final JiraAuthenticationContext jiraAuthenticationContext;
+    private final PermissionManager permissionManager;
 
-    public ContributionsServiceImpl(ProjectManager projectManager,
-            WorkLogRepository workLogRepository, IssueManager issueManager,
-            WorklogManager worklogManager) {
-        this.projectManager = projectManager;
+    public ContributionsServiceImpl(WorkLogRepository workLogRepository,
+            WorklogManager worklogManager,
+            JiraAuthenticationContext jiraAuthenticationContext,
+            PermissionManager permissionManager) {
+
         this.workLogRepository = workLogRepository;
-        this.issueManager = issueManager;
         this.worklogManager = worklogManager;
+        this.jiraAuthenticationContext = jiraAuthenticationContext;
+        this.permissionManager = permissionManager;
 
     }
 
     public ContributionsReport getAllUserContributions() {
 
-        logger.error("Retrieving all contributions");
+        logger.debug("Retrieving all contributions");
 
         return getUserContributionsForPeriod(
                 Timestamp.valueOf("2000-01-01 00:00:00"),
@@ -72,10 +77,12 @@ public class ContributionsServiceImpl implements ContributionsService {
     public ContributionsReport getUserContributionsForPeriod(Date startDate,
             Date endDate) {
 
-        logger.error("Retrieving all contributions for given startDate "
+        logger.debug("Retrieving all contributions for given startDate "
                 + startDate + ", endDate " + endDate);
+        
+        User user = jiraAuthenticationContext.getUser();
 
-        ContributionsReport contributionsReport = new ContributionsReport();
+        ContributionsReport contributionsReport = new ContributionsReport("Success", 200);
 
         List<Long> genericValues = workLogRepository.getWorkLogIdListForPeriod(
                 new Timestamp(startDate.getTime()),
@@ -90,13 +97,12 @@ public class ContributionsServiceImpl implements ContributionsService {
 
             Project project = worklog.getIssue().getProjectObject();
 
-            userContribution.addOrUpdateProjectHours(project.getName(),
-                    project.getKey(), worklog.getTimeSpent());
+            if (permissionManager.hasPermission(Permissions.BROWSE, project, user)) {
+                userContribution.addOrUpdateProjectHours(project.getName(),
+                        project.getKey(), worklog.getTimeSpent());
+            }
 
         }
-
-        contributionsReport.setCode(200);
-        contributionsReport.setMessage("Success");
 
         return contributionsReport;
     }

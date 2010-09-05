@@ -28,6 +28,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import au.id.wolfe.tribs.data.WorkLogReport;
 import au.id.wolfe.tribs.repository.WorkLogRepository;
@@ -39,22 +41,27 @@ import com.atlassian.jira.issue.worklog.Worklog;
 import com.atlassian.jira.issue.worklog.WorklogManager;
 import com.atlassian.jira.project.Project;
 import com.atlassian.jira.project.ProjectManager;
+import com.atlassian.jira.security.JiraAuthenticationContext;
+import com.atlassian.jira.security.PermissionManager;
+import com.atlassian.jira.security.Permissions;
 import com.google.common.collect.Lists;
+import com.opensymphony.user.User;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(User.class)
 public class WorkLogServiceTest {
-
-    @Mock
-    ProjectManager projectManager;
-
-    @Mock
-    IssueManager issueManager;
 
     @Mock
     WorklogManager worklogManager;
 
     @Mock
     WorkLogRepository workLogRepository;
+
+    @Mock
+    JiraAuthenticationContext jiraAuthenticationContext;
+
+    @Mock
+    PermissionManager permissionManager;
 
     @Test
     public void testGetUserProjectWorkLogsForPeriod() throws Exception {
@@ -68,6 +75,7 @@ public class WorkLogServiceTest {
         Worklog worklog = mock(Worklog.class);
         Issue issue = mock(Issue.class);
         Project project = mock(Project.class);
+        User user = mock(User.class);
 
         when(worklog.getIssue()).thenReturn(issue);
         when(issue.getProjectObject()).thenReturn(project);
@@ -83,6 +91,9 @@ public class WorkLogServiceTest {
         when(project.getKey()).thenReturn("TEST");
 
         when(worklogManager.getById(1L)).thenReturn(worklog);
+        
+        when(jiraAuthenticationContext.getUser()).thenReturn(user);
+        when(permissionManager.hasPermission(Permissions.BROWSE, project, user)).thenReturn(true);
 
         WorkLogReport workLogReport = workLogService
                 .getUserProjectWorkLogsForPeriod("markw", "TEST", new Date(),
@@ -92,7 +103,7 @@ public class WorkLogServiceTest {
     }
 
     private WorkLogService getWorkLogService() {
-        return new WorkLogServiceImpl(projectManager, workLogRepository,
-                issueManager, worklogManager);
+        return new WorkLogServiceImpl(workLogRepository, worklogManager,
+                jiraAuthenticationContext, permissionManager);
     }
 }

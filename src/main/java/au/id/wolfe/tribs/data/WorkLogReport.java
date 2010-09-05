@@ -34,7 +34,7 @@ import com.google.common.collect.Lists;
 @XmlRootElement(name = "WorkLogReport")
 public class WorkLogReport {
 
-    @XmlElement(name="status-code")
+    @XmlElement(name = "status-code")
     private Integer code;
     private String message;
     

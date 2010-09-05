@@ -20,15 +20,21 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import au.id.wolfe.tribs.data.WorkLogEntry;
 import au.id.wolfe.tribs.data.WorkLogReport;
 import au.id.wolfe.tribs.repository.WorkLogRepository;
 import au.id.wolfe.tribs.service.WorkLogService;
 
-import com.atlassian.jira.issue.IssueManager;
 import com.atlassian.jira.issue.worklog.Worklog;
 import com.atlassian.jira.issue.worklog.WorklogManager;
-import com.atlassian.jira.project.ProjectManager;
+import com.atlassian.jira.project.Project;
+import com.atlassian.jira.security.JiraAuthenticationContext;
+import com.atlassian.jira.security.PermissionManager;
+import com.atlassian.jira.security.Permissions;
+import com.opensymphony.user.User;
 
 /**
  * 
@@ -38,25 +44,35 @@ import com.atlassian.jira.project.ProjectManager;
  */
 public class WorkLogServiceImpl implements WorkLogService {
 
-    ProjectManager projectManager;
-    WorklogManager worklogManager;
-    IssueManager issueManager;
+    private final Logger logger = LoggerFactory
+    .getLogger(WorkLogServiceImpl.class);
+    
+    private final WorklogManager worklogManager;
+    private final WorkLogRepository workLogRepository;
+    private final JiraAuthenticationContext jiraAuthenticationContext;
+    private final PermissionManager permissionManager;
 
-    WorkLogRepository workLogRepository;
+    public WorkLogServiceImpl(WorkLogRepository workLogRepository,
+            WorklogManager worklogManager,
+            JiraAuthenticationContext jiraAuthenticationContext,
+            PermissionManager permissionManager) {
 
-    public WorkLogServiceImpl(ProjectManager projectManager,
-            WorkLogRepository workLogRepository, IssueManager issueManager,
-            WorklogManager worklogManager) {
-        this.projectManager = projectManager;
         this.workLogRepository = workLogRepository;
-        this.issueManager = issueManager;
         this.worklogManager = worklogManager;
+        this.jiraAuthenticationContext = jiraAuthenticationContext;
+        this.permissionManager = permissionManager;
+
     }
 
     public WorkLogReport getUserProjectWorkLogsForPeriod(String userid,
             String projectKey, Date startDate, Date endDate) {
 
+        logger.debug("Retrieving all work logs for given startDate "
+                + startDate + ", endDate " + endDate);
+
         WorkLogReport workLogReport = new WorkLogReport("Success", 200);
+
+        User user = jiraAuthenticationContext.getUser();
 
         List<Long> workLogIdValues = workLogRepository
                 .getWorkLogIdListForPeriod(new Timestamp(startDate.getTime()),
@@ -66,10 +82,10 @@ public class WorkLogServiceImpl implements WorkLogService {
 
             Worklog worklog = worklogManager.getById(workLogId);
 
-            if (worklog.getAuthor().equals(userid)
-                    && worklog.getIssue().getProjectObject().getKey()
-                            .equals(projectKey)) {
-                
+            Project project = worklog.getIssue().getProjectObject();
+
+            if (isWorkLogToBeIncluded(user, project, worklog, userid, projectKey)) {
+
                 workLogReport.getWorkLogEntryList().add(
                         new WorkLogEntry(worklog.getId(), worklog.getAuthor(),
                                 worklog.getAuthorFullName(), worklog
@@ -82,6 +98,16 @@ public class WorkLogServiceImpl implements WorkLogService {
         }
 
         return workLogReport;
+    }
+
+    private boolean isWorkLogToBeIncluded(User user, Project project,
+            Worklog worklog, String userid, String projectKey) {
+
+        return permissionManager.hasPermission(Permissions.BROWSE, project,
+                user)
+                && worklog.getAuthor().equals(userid)
+                && worklog.getIssue().getProjectObject().getKey()
+                        .equals(projectKey);
     }
 
 }
