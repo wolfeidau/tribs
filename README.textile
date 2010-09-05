@@ -8,22 +8,24 @@ h2. Examples
 
 As this is really just a couple of REST based resource interfaces at the moment it is easiest to illustrate it's function through some examples.
 
-This sample has two projects in JIRA and two users, each user has logged work to both projects.
+All URL's used to address this plugin begin with the following:
 
-The URL to retrieve a summary of contributions is as follows:
+bc. http://localhost:2990/jira/rest/tribs-rest/1.0/
+
+Adding the following fragment will retrieve a summary of contributions:
 
 * This URL will retrieve all contributions to projects by all users.
 
-bc. http://localhost:2990/jira/rest/tribs-rest/1.0/contributions/all.xml?os_username=admin&os_password=admin
+bc. contributions/all.xml?os_username=admin&os_password=admin
 
-* This will do the same for a given period.
+Adding the following fragment will retrieve a summary of contributions for a given period:
 
-bc. http://localhost:2990/jira/rest/tribs-rest/1.0/contributions/period.xml?os_username=admin&os_password=admin&startDate=2010-01-01&endDate=2010-02-01
+bc. contributions/period.xml?os_username=admin&os_password=admin&startDate=2010-01-01&endDate=2010-02-01
  
-A sample of the output is as follows.
+This sample below illustrates two users, with one having timespent against two projects and the other with only time spent against a single project.
 
 pre. {
-   "code":200,
+   "status-code":200,
    "message":"Success",
    "userContributions":[
       {
@@ -39,6 +41,17 @@ pre. {
                "projectName":"fxassetman",
                "projectKey":"FXA",
                "timespent":7200
+            }
+         ]
+      },
+      {
+         "userid":"mark",
+         "fullName":"Mark Wolfe",
+         "projectTimeSpentList":[
+            {
+               "projectName":"fxassetman",
+               "projectKey":"FXA",
+               "timespent":14400
             }
          ]
       }

@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 
 import com.google.common.collect.Lists;
 
@@ -31,16 +32,30 @@ import com.google.common.collect.Lists;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class WorkLogReport {
 
+    @XmlElement(name="status-code")
+    private Integer code;
+    private String message;
+    
+    
     private List<WorkLogEntry> workLogEntryList = Lists.newArrayList();
 
     public WorkLogReport() {
     }
 
-    /**
-     * @return the workLogEntryList
-     */
+    public WorkLogReport(String message, Integer code) {
+        this.message = message;
+        this.code = code;
+    }
+
     public List<WorkLogEntry> getWorkLogEntryList() {
         return workLogEntryList;
     }
 
+    public Integer getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }

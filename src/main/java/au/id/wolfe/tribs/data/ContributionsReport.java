@@ -21,9 +21,11 @@ import java.util.NoSuchElementException;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.google.common.collect.Lists;
+
 
 /**
  * 
@@ -34,6 +36,7 @@ import com.google.common.collect.Lists;
 @XmlRootElement(name = "ContributionsReport")
 public class ContributionsReport {
 
+    @XmlElement(name="status-code")
     private Integer code;
     private String message;
 
