@@ -13,18 +13,16 @@ This sample has two projects in JIRA and two users, each user has logged work to
 The URL to retrieve a summary of contributions is as follows:
 
 * This URL will retrieve all contributions to projects by all users.
-<code>
+<pre>
 http://localhost:2990/jira/rest/tribs-rest/1.0/contributions/all.xml?os_username=admin&os_password=admin
-</code>
-
+</pre>
 * This will do the same for a given period.
-<code>
+<pre>
 http://localhost:2990/jira/rest/tribs-rest/1.0/contributions/period.xml?os_username=admin&os_password=admin&startDate=2010-01-01&endDate=2010-02-01
-</code>
+</pre>
  
 A sample of the output is as follows.
 <pre>
-<code>
 {
    "code":200,
    "message":"Success",
@@ -47,6 +45,5 @@ A sample of the output is as follows.
       }
    ]
 }
-</code>
 </pre>
 
