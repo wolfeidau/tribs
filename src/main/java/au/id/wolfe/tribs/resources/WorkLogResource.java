@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package au.id.wolfe.tribs;
+package au.id.wolfe.tribs.resources;
 
 import javax.ws.rs.Path;
 

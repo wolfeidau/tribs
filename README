@@ -1,5 +1,0 @@
-
-This plug-in is designed to build expose a contribution report APIs which extract data representing the effort, typically in time logged, contributed by JIRA each user.
-
-Building this software was tested with version 3.2 of the Atlassian plugin SDK.
-

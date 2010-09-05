@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ContributionsReport>
+  <code>200</code>
+  <message>Success</message>
+  <userContributions>
+    <userid>admin</userid>
+    <fullName>admin</fullName>
+    <projectTimeSpentList>
+      <projectName>STAR4 Application</projectName>
+      <projectKey>STAR</projectKey>
+      <timespent>7200</timespent>
+    </projectTimeSpentList>
+    <projectTimeSpentList>
+      <projectName>fxassetman</projectName>
+      <projectKey>FXA</projectKey>
+      <timespent>7200</timespent>
+    </projectTimeSpentList>
+  </userContributions>
+</ContributionsReport>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package au.id.wolfe.tribs;
+package au.id.wolfe.tribs.resources;
 
 import static junit.framework.Assert.assertNotNull;
 
@@ -24,6 +24,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import au.id.wolfe.tribs.data.WorkLogReport;
+import au.id.wolfe.tribs.resources.WorkLogResource;
 import au.id.wolfe.tribs.service.WorkLogService;
 
 @RunWith(MockitoJUnitRunner.class)
