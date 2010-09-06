@@ -43,25 +43,24 @@ import au.id.wolfe.tribs.service.impl.ContributionsServiceImpl;
  * 
  * I have done this as I know this is going to get BUSTED in the future so
  * better to have all this crap in one place.
- *
+ * 
  */
 public class WorkLogRepositoryImpl implements WorkLogRepository {
 
     Logger logger = LoggerFactory.getLogger(ContributionsServiceImpl.class);
 
-    
     OfBizDelegator genericDelegator;
 
     public WorkLogRepositoryImpl(OfBizDelegator genericDelegator) {
         this.genericDelegator = genericDelegator;
     }
 
-
     @SuppressWarnings("unchecked")
-    public List<Long> getWorkLogIdListForPeriod(Timestamp startDate, Timestamp endDate) {
+    public List<Long> getWorkLogIdListForPeriod(Timestamp startDate,
+            Timestamp endDate) {
 
-        logger.info("getWorkLogIdListForPeriod startDate " + startDate + ", endDate "
-                + endDate);
+        logger.info("getWorkLogIdListForPeriod startDate " + startDate
+                + ", endDate " + endDate);
 
         List<Long> worklogIdList = Lists.newLinkedList();
 
@@ -71,6 +70,38 @@ public class WorkLogRepositoryImpl implements WorkLogRepository {
                 EntityOperator.GREATER_THAN_EQUAL_TO, startDate));
         expressions.add(new EntityExpr("startdate", EntityOperator.LESS_THAN,
                 endDate));
+
+        EntityCondition condition = new EntityConditionList(expressions,
+                EntityOperator.AND);
+
+        for (GenericValue value : genericDelegator.findByCondition(
+                OfBizWorklogStore.WORKLOG_ENTITY, condition,
+                EasyList.build("id"), EasyList.build())) {
+            worklogIdList.add(value.getLong("id"));
+
+        }
+
+        return worklogIdList;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Long> getUserWorkLogIdListForPeriod(Timestamp startDate,
+            Timestamp endDate, String userid) {
+
+        logger.info("getWorkLogIdListForPeriod startDate " + startDate
+                + ", endDate " + endDate + ", userid " + userid);
+
+        List<Long> worklogIdList = Lists.newLinkedList();
+
+        List<EntityCondition> expressions = new ArrayList<EntityCondition>();
+
+        expressions.add(new EntityExpr("startdate",
+                EntityOperator.GREATER_THAN_EQUAL_TO, startDate));
+        expressions.add(new EntityExpr("startdate", EntityOperator.LESS_THAN,
+                endDate));
+
+        expressions
+                .add(new EntityExpr("author", EntityOperator.EQUALS, userid));
 
         EntityCondition condition = new EntityConditionList(expressions,
                 EntityOperator.AND);

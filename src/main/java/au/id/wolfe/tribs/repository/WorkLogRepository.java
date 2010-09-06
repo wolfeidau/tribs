@@ -34,4 +34,10 @@ public interface WorkLogRepository {
      */
     List<Long> getWorkLogIdListForPeriod(Timestamp startTimestamp,
             Timestamp endTimestamp);
+
+    /**
+     *  Retrieve a list of work log ids for a particular user.
+     */
+    public List<Long> getUserWorkLogIdListForPeriod(Timestamp startDate,
+            Timestamp endDate, String userid);
 }

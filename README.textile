@@ -2,13 +2,13 @@ h2. Overview
 
 This plug-in is designed to build expose a contribution report APIs which extract data representing the effort, typically in time logged, contributed by JIRA each user.
 
-Building this software was tested with version 3.2 of the Atlassian plugin SDK.
+Building this software was tested with version 3.2 of the Atlassian plug-in SDK.
 
 h2. Examples
 
 As this is really just a couple of REST based resource interfaces at the moment it is easiest to illustrate it's function through some examples.
 
-All URL's used to address this plugin begin with the following:
+All URL's used to address this plug-in begin with the following:
 
 bc. http://localhost:2990/jira/rest/tribs-rest/1.0/
 
@@ -22,7 +22,7 @@ Adding the following fragment will retrieve a summary of contributions for a giv
 
 bc. contributions/period.xml?os_username=admin&os_password=admin&startDate=2010-01-01&endDate=2010-02-01
  
-This sample below illustrates two users, with one having timespent against two projects and the other with only time spent against a single project.
+This sample below illustrates two users, with one having time spent against two projects and the other with only time spent against a single project.
 
 pre. {
    "status-code":200,
@@ -63,7 +63,8 @@ bc. worklog/period.xml?os_username=admin&os_password=admin&startDate=2010-01-01&
 
 h2. TODO 
 
-* Need to document the worklog interface
+* Need to document the work log interface
 * Need to make endDate optional for all period based methods, if not supplied this will be defaulted to now.
-* Need to make userid optional for the worklog method, so all worklog entries can be retrieved for a given project.
-* Also need to make project key optional to enable retrieval for all worklog entries for a give user.
+* Need to make user id optional for the work log method, so all work log entries can be retrieved for a given project.
+* Also need to make project key optional to enable retrieval for all work log entries for a give user.
+* Change the description in the work log entry to the value of Issue Title.
