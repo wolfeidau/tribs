@@ -16,6 +16,8 @@
 
 package au.id.wolfe.tribs.resources;
 
+import java.util.Date;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -50,6 +52,18 @@ public class ContributionsResource {
         return contributionsService.getAllUserContributions();
     }
 
+    /**
+     * 
+     * This method retrieves a contribution report using the given parameters.
+     * 
+     * @param startDate
+     *            - Date parameter to include data from, this is inclusive
+     *            (Required).
+     * @param endDate
+     *            - Date parameter to include data to, this is exclusive
+     *            (Optional).
+     * @return ContributionsReport containing the filtered data.
+     */
     @GET
     @Path("/period")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -57,12 +71,19 @@ public class ContributionsResource {
             @QueryParam("startDate") String startDate,
             @QueryParam("endDate") String endDate) {
 
-        Assert.hasText(startDate);
-        Assert.hasText(endDate);
+        Date endDateValue;
+
+        Assert.hasText(startDate, "startDate must not be empty");
+
+        if (endDate == null) {
+            endDateValue = new Date();
+        } else {
+            Assert.hasText(endDate);
+            endDateValue = DateUtils.parseISO8601Date(endDate);
+        }
 
         return contributionsService.getUserContributionsForPeriod(
-                DateUtils.parseISO8601Date(startDate),
-                DateUtils.parseISO8601Date(endDate));
+                DateUtils.parseISO8601Date(startDate), endDateValue);
 
     }
 

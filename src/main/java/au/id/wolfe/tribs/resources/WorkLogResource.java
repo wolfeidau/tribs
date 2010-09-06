@@ -16,6 +16,8 @@
 
 package au.id.wolfe.tribs.resources;
 
+import java.util.Date;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -52,14 +54,29 @@ public class WorkLogResource {
             @QueryParam("startDate") String startDate,
             @QueryParam("endDate") String endDate) {
 
-        Assert.hasText(userid);
-        Assert.hasText(projectKey);
-        Assert.hasText(startDate);
-        Assert.hasText(endDate);
+        Date endDateValue;
+        
+        Assert.hasText(startDate, "startDate is required and must not be empty.");
+        
+        if (userid != null ){
+            Assert.hasText(userid, "userid must not be empty.");
+        }
+        
+        if (projectKey != null){
+            Assert.hasText(projectKey, "projectKey must not be empty.");
+        }
+        
+        if (endDate == null){
+            endDateValue = new Date(); 
+        } else {
+            Assert.hasText(endDate, "endDate must not be empty.");
+            endDateValue = DateUtils.parseISO8601Date(endDate);
+        }
+        
 
         return workLogService.getUserProjectWorkLogsForPeriod(userid,
                 projectKey, DateUtils.parseISO8601Date(startDate),
-                DateUtils.parseISO8601Date(endDate));
+                endDateValue);
     }
 
 }

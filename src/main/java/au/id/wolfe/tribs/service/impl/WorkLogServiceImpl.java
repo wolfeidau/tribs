@@ -45,8 +45,8 @@ import com.opensymphony.user.User;
 public class WorkLogServiceImpl implements WorkLogService {
 
     private final Logger logger = LoggerFactory
-    .getLogger(WorkLogServiceImpl.class);
-    
+            .getLogger(WorkLogServiceImpl.class);
+
     private final WorklogManager worklogManager;
     private final WorkLogRepository workLogRepository;
     private final JiraAuthenticationContext jiraAuthenticationContext;
@@ -84,7 +84,8 @@ public class WorkLogServiceImpl implements WorkLogService {
 
             Project project = worklog.getIssue().getProjectObject();
 
-            if (isWorkLogToBeIncluded(user, project, worklog, userid, projectKey)) {
+            if (isWorkLogToBeIncluded(user, project, worklog, userid,
+                    projectKey)) {
 
                 workLogReport.getWorkLogEntryList().add(
                         new WorkLogEntry(worklog.getId(), worklog.getAuthor(),
@@ -105,9 +106,14 @@ public class WorkLogServiceImpl implements WorkLogService {
 
         return permissionManager.hasPermission(Permissions.BROWSE, project,
                 user)
-                && worklog.getAuthor().equals(userid)
-                && worklog.getIssue().getProjectObject().getKey()
-                        .equals(projectKey);
+                && checkOptionalField(worklog.getAuthor(), userid)
+                && checkOptionalField(worklog.getIssue().getProjectObject()
+                        .getKey(), projectKey);
+    }
+
+    private boolean checkOptionalField(String compareField, String optionalField) {
+        return optionalField == null ? true : compareField
+                .equals(optionalField);
     }
 
 }

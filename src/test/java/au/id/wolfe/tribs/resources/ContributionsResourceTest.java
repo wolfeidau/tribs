@@ -18,6 +18,7 @@ package au.id.wolfe.tribs.resources;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -82,6 +83,30 @@ public class ContributionsResourceTest {
                 eq(startDate), eq(endDate));
 
     }
+    
+    @Test
+    public void testGetUserContributionsForPeriodWithNullEndDate() throws Exception {
+
+        Date startDate = DateUtils.parseISO8601Date("2010-01-01");
+
+        ContributionsReport ContributionsReport = new ContributionsReport();
+
+        ContributionsResource contributionsResource = getContributionsResource();
+
+        when(
+                contributionsService.getUserContributionsForPeriod(
+                        eq(startDate), any(Date.class))).thenReturn(
+                ContributionsReport);
+
+        ContributionsReport userContributionsResponse = contributionsResource
+                .getUserContributionsForPeriod("2010-01-01", null);
+
+        assertEquals(ContributionsReport, userContributionsResponse);
+
+        verify(contributionsService).getUserContributionsForPeriod(
+                eq(startDate), any(Date.class));
+
+    }    
 
     @Test(expected = IllegalArgumentException.class)
     public void testContainsTextValidationIsThrowForPeriodStartDate()

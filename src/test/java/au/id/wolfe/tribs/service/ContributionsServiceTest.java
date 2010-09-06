@@ -16,9 +16,11 @@
 
 package au.id.wolfe.tribs.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -32,7 +34,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import au.id.wolfe.tribs.data.ContributionsReport;
 import au.id.wolfe.tribs.repository.WorkLogRepository;
 import au.id.wolfe.tribs.service.impl.ContributionsServiceImpl;
-import au.id.wolfe.tribs.utils.DateUtils;
 
 import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.worklog.Worklog;
@@ -53,7 +54,7 @@ public class ContributionsServiceTest {
 
     @Mock
     WorkLogRepository workLogRepository;
-    
+
     @Mock
     JiraAuthenticationContext jiraAuthenticationContext;
 
@@ -65,26 +66,26 @@ public class ContributionsServiceTest {
 
         ContributionsService contributionsService = getContributionsService();
 
-        Date startDate = DateUtils.parseISO8601Date("2000-01-01");
-        Date endDate = DateUtils.parseISO8601Date("2020-01-01");
+        when(
+                workLogRepository.getWorkLogIdListForPeriod(
+                        any(Timestamp.class), any(Timestamp.class)))
+                .thenReturn(Lists.newArrayList(1L));
 
-        when(workLogRepository.getWorkLogIdListForPeriod(new Timestamp(
-                startDate.getTime()), new Timestamp(endDate.getTime()))).thenReturn(Lists.newArrayList(1L));
-        
         Worklog worklog = mock(Worklog.class);
         Issue issue = mock(Issue.class);
         Project project = mock(Project.class);
         User user = mock(User.class);
-        
-        when (worklog.getAuthor()).thenReturn("markw");
+
+        when(worklog.getAuthor()).thenReturn("markw");
         when(worklog.getIssue()).thenReturn(issue);
         when(issue.getProjectObject()).thenReturn(project);
         when(project.getKey()).thenReturn("TEST");
         when(project.getName()).thenReturn("TEST");
-        
+
         when(worklogManager.getById(1L)).thenReturn(worklog);
         when(jiraAuthenticationContext.getUser()).thenReturn(user);
-        when(permissionManager.hasPermission(Permissions.BROWSE, project, user)).thenReturn(true);
+        when(permissionManager.hasPermission(Permissions.BROWSE, project, user))
+                .thenReturn(true);
 
         ContributionsReport userContributions = contributionsService
                 .getAllUserContributions();
@@ -92,9 +93,44 @@ public class ContributionsServiceTest {
         assertNotNull(userContributions);
     }
 
+    @Test
+    public void testGetUserContributionsForPeriod() {
+
+        ContributionsService contributionsService = getContributionsService();
+
+        when(
+                workLogRepository.getWorkLogIdListForPeriod(
+                        any(Timestamp.class), any(Timestamp.class)))
+                .thenReturn(Lists.newArrayList(1L));
+
+        Worklog worklog = mock(Worklog.class);
+        Issue issue = mock(Issue.class);
+        Project project = mock(Project.class);
+        User user = mock(User.class);
+
+        when(worklog.getAuthor()).thenReturn("markw");
+        when(worklog.getIssue()).thenReturn(issue);
+        when(issue.getProjectObject()).thenReturn(project);
+        when(project.getKey()).thenReturn("TEST");
+        when(project.getName()).thenReturn("TEST");
+
+        when(worklogManager.getById(1L)).thenReturn(worklog);
+        when(jiraAuthenticationContext.getUser()).thenReturn(user);
+        when(permissionManager.hasPermission(Permissions.BROWSE, project, user))
+                .thenReturn(false);
+
+        ContributionsReport userContributions = contributionsService
+                .getUserContributionsForPeriod(new Date(), new Date());
+
+        assertNotNull(userContributions);
+
+        assertEquals(1, userContributions.getUserContributions().size());
+
+    }
+
     private ContributionsService getContributionsService() {
-        return new ContributionsServiceImpl(workLogRepository,
-                worklogManager, jiraAuthenticationContext, permissionManager);
+        return new ContributionsServiceImpl(workLogRepository, worklogManager,
+                jiraAuthenticationContext, permissionManager);
     }
 
 }
