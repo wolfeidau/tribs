@@ -60,3 +60,10 @@ pre. {
 
 
 bc. worklog/period.xml?os_username=admin&os_password=admin&startDate=2010-01-01&endDate=2011-02-01&userid=admin&projectKey=FXA
+
+h2. TODO 
+
+* Need to document the worklog interface
+* Need to make endDate optional for all period based methods, if not supplied this will be defaulted to now.
+* Need to make userid optional for the worklog method, so all worklog entries can be retrieved for a given project.
+* Also need to make project key optional to enable retrieval for all worklog entries for a give user.
