@@ -64,7 +64,11 @@ bc. worklog/period.xml?os_username=admin&os_password=admin&startDate=2010-01-01&
 h2. TODO 
 
 * Need to document the work log interface
-* Need to make endDate optional for all period based methods, if not supplied this will be defaulted to now.
-* Need to make user id optional for the work log method, so all work log entries can be retrieved for a given project.
-* Also need to make project key optional to enable retrieval for all work log entries for a give user.
-* Change the description in the work log entry to the value of Issue Title.
+* Need to make endDate optional for all period based methods, if not supplied this will be defaulted to now. DONE
+* Need to make user id optional for the work log method, so all work log entries can be retrieved for a given project. DONE
+* Also need to make project key optional to enable retrieval for all work log entries for a give user. DONE
+* Change the description in the work log entry to the value of Issue Title. DONE
+
+Other stuff:
+* getUserProjectWorkLogsForPeriod should have it's parameters reordered for consistency.
+* Need a better strategy to deal with optional parameters in some of the projects.

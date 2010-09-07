@@ -30,6 +30,6 @@ public interface ContributionsService {
     ContributionsReport getAllUserContributions();
 
     ContributionsReport getUserContributionsForPeriod(Date startDate,
-            Date endDate);
+            Date endDate, String userid, String projectKey);
 
 }

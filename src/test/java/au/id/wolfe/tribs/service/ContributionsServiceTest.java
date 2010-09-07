@@ -120,7 +120,7 @@ public class ContributionsServiceTest {
                 .thenReturn(false);
 
         ContributionsReport userContributions = contributionsService
-                .getUserContributionsForPeriod(new Date(), new Date());
+                .getUserContributionsForPeriod(new Date(), new Date(), null, null);
 
         assertNotNull(userContributions);
 

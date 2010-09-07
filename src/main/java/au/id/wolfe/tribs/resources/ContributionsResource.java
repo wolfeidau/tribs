@@ -69,21 +69,32 @@ public class ContributionsResource {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public ContributionsReport getUserContributionsForPeriod(
             @QueryParam("startDate") String startDate,
-            @QueryParam("endDate") String endDate) {
-
+            @QueryParam("endDate") String endDate,
+            @QueryParam("userid") String userid,
+            @QueryParam("projectKey") String projectKey) {
         Date endDateValue;
 
-        Assert.hasText(startDate, "startDate must not be empty");
+        Assert.hasText(startDate,
+                "startDate is required and must not be empty.");
+
+        if (userid != null) {
+            Assert.hasText(userid, "userid must not be empty.");
+        }
+
+        if (projectKey != null) {
+            Assert.hasText(projectKey, "projectKey must not be empty.");
+        }
 
         if (endDate == null) {
             endDateValue = new Date();
         } else {
-            Assert.hasText(endDate);
+            Assert.hasText(endDate, "endDate must not be empty.");
             endDateValue = DateUtils.parseISO8601Date(endDate);
         }
 
         return contributionsService.getUserContributionsForPeriod(
-                DateUtils.parseISO8601Date(startDate), endDateValue);
+                DateUtils.parseISO8601Date(startDate), endDateValue, userid,
+                projectKey);
 
     }
 

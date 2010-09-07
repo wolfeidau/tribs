@@ -71,21 +71,24 @@ public class ContributionsResourceTest {
 
         when(
                 contributionsService.getUserContributionsForPeriod(
-                        eq(startDate), eq(endDate))).thenReturn(
-                ContributionsReport);
+                        eq(startDate), eq(endDate), any(String.class),
+                        any(String.class))).thenReturn(ContributionsReport);
 
         ContributionsReport userContributionsResponse = contributionsResource
-                .getUserContributionsForPeriod("2010-01-01", "2010-02-01");
+                .getUserContributionsForPeriod("2010-01-01", "2010-02-01",
+                        null, null);
 
         assertEquals(ContributionsReport, userContributionsResponse);
 
         verify(contributionsService).getUserContributionsForPeriod(
-                eq(startDate), eq(endDate));
+                eq(startDate), eq(endDate), any(String.class),
+                any(String.class));
 
     }
-    
+
     @Test
-    public void testGetUserContributionsForPeriodWithNullEndDate() throws Exception {
+    public void testGetUserContributionsForPeriodWithNullEndDate()
+            throws Exception {
 
         Date startDate = DateUtils.parseISO8601Date("2010-01-01");
 
@@ -95,18 +98,18 @@ public class ContributionsResourceTest {
 
         when(
                 contributionsService.getUserContributionsForPeriod(
-                        eq(startDate), any(Date.class))).thenReturn(
+                        eq(startDate), any(Date.class), any(String.class), any(String.class))).thenReturn(
                 ContributionsReport);
 
         ContributionsReport userContributionsResponse = contributionsResource
-                .getUserContributionsForPeriod("2010-01-01", null);
+                .getUserContributionsForPeriod("2010-01-01", null, null, null);
 
         assertEquals(ContributionsReport, userContributionsResponse);
 
         verify(contributionsService).getUserContributionsForPeriod(
-                eq(startDate), any(Date.class));
+                eq(startDate), any(Date.class), any(String.class), any(String.class));
 
-    }    
+    }
 
     @Test(expected = IllegalArgumentException.class)
     public void testContainsTextValidationIsThrowForPeriodStartDate()
@@ -114,7 +117,8 @@ public class ContributionsResourceTest {
 
         ContributionsResource contributionsResource = getContributionsResource();
 
-        contributionsResource.getUserContributionsForPeriod("", "2010-01-01");
+        contributionsResource.getUserContributionsForPeriod("", "2010-01-01",
+                null, null);
 
     }
 
@@ -124,7 +128,8 @@ public class ContributionsResourceTest {
 
         ContributionsResource contributionsResource = getContributionsResource();
 
-        contributionsResource.getUserContributionsForPeriod("2010-01-01", "");
+        contributionsResource.getUserContributionsForPeriod("2010-01-01", "",
+                null, null);
 
     }
 
@@ -134,7 +139,8 @@ public class ContributionsResourceTest {
 
         ContributionsResource contributionsResource = getContributionsResource();
 
-        contributionsResource.getUserContributionsForPeriod("crappydate", "");
+        contributionsResource.getUserContributionsForPeriod("crappydate", "",
+                null, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -143,7 +149,7 @@ public class ContributionsResourceTest {
         ContributionsResource contributionsResource = getContributionsResource();
 
         contributionsResource.getUserContributionsForPeriod("2010-01-01",
-                "crappydate");
+                "crappydate", null, null);
     }
 
     private ContributionsResource getContributionsResource() {

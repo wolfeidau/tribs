@@ -70,19 +70,20 @@ public class ContributionsServiceImpl implements ContributionsService {
 
         return getUserContributionsForPeriod(
                 Timestamp.valueOf("2000-01-01 00:00:00"),
-                Timestamp.valueOf("2020-01-01 00:00:00"));
+                Timestamp.valueOf("2020-01-01 00:00:00"), null, null);
 
     }
 
     public ContributionsReport getUserContributionsForPeriod(Date startDate,
-            Date endDate) {
+            Date endDate, String userid, String projectKey) {
 
         logger.debug("Retrieving all contributions for given startDate "
                 + startDate + ", endDate " + endDate);
-        
+
         User user = jiraAuthenticationContext.getUser();
 
-        ContributionsReport contributionsReport = new ContributionsReport("Success", 200);
+        ContributionsReport contributionsReport = new ContributionsReport(
+                "Success", 200);
 
         List<Long> genericValues = workLogRepository.getWorkLogIdListForPeriod(
                 new Timestamp(startDate.getTime()),
@@ -91,20 +92,30 @@ public class ContributionsServiceImpl implements ContributionsService {
         for (Long gv : genericValues) {
             Worklog worklog = worklogManager.getById(gv);
 
-            UserContribution userContribution = contributionsReport
-                    .addAndReturnUserContribution(worklog.getAuthor(),
-                            worklog.getAuthorFullName());
-
             Project project = worklog.getIssue().getProjectObject();
 
-            if (permissionManager.hasPermission(Permissions.BROWSE, project, user)) {
-                userContribution.addOrUpdateProjectHours(project.getName(),
-                        project.getKey(), worklog.getTimeSpent());
+            if (checkOptionalField(worklog.getAuthor(), userid)
+                    && checkOptionalField(project.getKey(), projectKey)) {
+
+                UserContribution userContribution = contributionsReport
+                        .addAndReturnUserContribution(worklog.getAuthor(),
+                                worklog.getAuthorFullName());
+
+                if (permissionManager.hasPermission(Permissions.BROWSE,
+                        project, user)) {
+                    userContribution.addOrUpdateProjectHours(project.getName(),
+                            project.getKey(), worklog.getTimeSpent());
+                }
             }
 
         }
 
         return contributionsReport;
+    }
+
+    private boolean checkOptionalField(String compareField, String optionalField) {
+        return optionalField == null ? true : compareField
+                .equals(optionalField);
     }
 
 }

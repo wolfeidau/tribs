@@ -92,7 +92,7 @@ public class WorkLogServiceImpl implements WorkLogService {
                                 worklog.getAuthorFullName(), worklog
                                         .getTimeSpent(), worklog.getIssue()
                                         .getKey(), worklog.getIssue()
-                                        .getDescription(),
+                                        .getSummary(),
                                 worklog.getCreated(), worklog.getUpdated()));
             }
 
