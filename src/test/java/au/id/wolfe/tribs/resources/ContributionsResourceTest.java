@@ -87,6 +87,33 @@ public class ContributionsResourceTest {
     }
 
     @Test
+    public void testGetUserContributionsForPeriodWithNullStartDate() throws Exception {
+
+        Date startDate = DateUtils.parseISO8601Date("2000-01-01");
+        Date endDate = DateUtils.parseISO8601Date("2010-02-01");
+
+        ContributionsReport ContributionsReport = new ContributionsReport();
+
+        ContributionsResource contributionsResource = getContributionsResource();
+
+        when(
+                contributionsService.getUserContributionsForPeriod(
+                        eq(startDate), eq(endDate), any(String.class),
+                        any(String.class))).thenReturn(ContributionsReport);
+
+        ContributionsReport userContributionsResponse = contributionsResource
+                .getUserContributionsForPeriod(null, "2010-02-01",
+                        null, null);
+
+        assertEquals(ContributionsReport, userContributionsResponse);
+
+        verify(contributionsService).getUserContributionsForPeriod(
+                eq(startDate), eq(endDate), any(String.class),
+                any(String.class));
+
+    }
+
+    @Test
     public void testGetUserContributionsForPeriodWithNullEndDate()
             throws Exception {
 
@@ -150,6 +177,24 @@ public class ContributionsResourceTest {
 
         contributionsResource.getUserContributionsForPeriod("2010-01-01",
                 "crappydate", null, null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testContainsDateParseIsThrowForEmptyStringInUserid() throws Exception {
+
+        ContributionsResource contributionsResource = getContributionsResource();
+
+        contributionsResource.getUserContributionsForPeriod("2010-01-01",
+                "2010-01-01", "", null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testContainsDateParseIsThrowForEmptyStringInProjectKey() throws Exception {
+
+        ContributionsResource contributionsResource = getContributionsResource();
+
+        contributionsResource.getUserContributionsForPeriod("2010-01-01",
+                "2010-01-01", null, "");
     }
 
     private ContributionsResource getContributionsResource() {

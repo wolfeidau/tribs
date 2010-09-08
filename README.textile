@@ -68,6 +68,7 @@ h2. TODO
 * Need to make user id optional for the work log method, so all work log entries can be retrieved for a given project. DONE
 * Also need to make project key optional to enable retrieval for all work log entries for a give user. DONE
 * Change the description in the work log entry to the value of Issue Title. DONE
+* Need to make the startDate optional for all the period based methods, so it acts as all, with the other filters. DONE
 
 Other stuff:
 * getUserProjectWorkLogsForPeriod should have it's parameters reordered for consistency.

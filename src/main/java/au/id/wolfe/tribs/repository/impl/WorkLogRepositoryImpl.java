@@ -83,36 +83,4 @@ public class WorkLogRepositoryImpl implements WorkLogRepository {
 
         return worklogIdList;
     }
-
-    @SuppressWarnings("unchecked")
-    public List<Long> getUserWorkLogIdListForPeriod(Timestamp startDate,
-            Timestamp endDate, String userid) {
-
-        logger.info("getWorkLogIdListForPeriod startDate " + startDate
-                + ", endDate " + endDate + ", userid " + userid);
-
-        List<Long> worklogIdList = Lists.newLinkedList();
-
-        List<EntityCondition> expressions = new ArrayList<EntityCondition>();
-
-        expressions.add(new EntityExpr("startdate",
-                EntityOperator.GREATER_THAN_EQUAL_TO, startDate));
-        expressions.add(new EntityExpr("startdate", EntityOperator.LESS_THAN,
-                endDate));
-
-        expressions
-                .add(new EntityExpr("author", EntityOperator.EQUALS, userid));
-
-        EntityCondition condition = new EntityConditionList(expressions,
-                EntityOperator.AND);
-
-        for (GenericValue value : genericDelegator.findByCondition(
-                OfBizWorklogStore.WORKLOG_ENTITY, condition,
-                EasyList.build("id"), EasyList.build())) {
-            worklogIdList.add(value.getLong("id"));
-
-        }
-
-        return worklogIdList;
-    }
 }

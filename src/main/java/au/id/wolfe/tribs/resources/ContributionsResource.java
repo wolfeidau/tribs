@@ -72,10 +72,8 @@ public class ContributionsResource {
             @QueryParam("endDate") String endDate,
             @QueryParam("userid") String userid,
             @QueryParam("projectKey") String projectKey) {
-        Date endDateValue;
 
-        Assert.hasText(startDate,
-                "startDate is required and must not be empty.");
+        Date startDateValue, endDateValue;
 
         if (userid != null) {
             Assert.hasText(userid, "userid must not be empty.");
@@ -83,6 +81,13 @@ public class ContributionsResource {
 
         if (projectKey != null) {
             Assert.hasText(projectKey, "projectKey must not be empty.");
+        }
+
+        if (startDate == null) {
+            startDateValue = DateUtils.parseISO8601Date(DateUtils.DEFAULT_START_DATE);
+        } else {
+            Assert.hasText(startDate, "startDate must not be empty.");
+            startDateValue = DateUtils.parseISO8601Date(startDate);
         }
 
         if (endDate == null) {
@@ -93,8 +98,7 @@ public class ContributionsResource {
         }
 
         return contributionsService.getUserContributionsForPeriod(
-                DateUtils.parseISO8601Date(startDate), endDateValue, userid,
-                projectKey);
+                startDateValue, endDateValue, userid, projectKey);
 
     }
 

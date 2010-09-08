@@ -28,6 +28,8 @@ import java.util.Date;
 public final class DateUtils {
 
     public static final String ISO8601_DATE_PATTERN = "yyyy-MM-dd";
+    
+    public static final String DEFAULT_START_DATE = "2000-01-01";
 
     /**
      * Parses a string representing a date using the ISO8601 pattern.

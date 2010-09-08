@@ -54,29 +54,32 @@ public class WorkLogResource {
             @QueryParam("startDate") String startDate,
             @QueryParam("endDate") String endDate) {
 
-        Date endDateValue;
-        
-        Assert.hasText(startDate, "startDate is required and must not be empty.");
-        
-        if (userid != null ){
+        Date startDateValue, endDateValue;
+
+        if (userid != null) {
             Assert.hasText(userid, "userid must not be empty.");
         }
-        
-        if (projectKey != null){
+
+        if (projectKey != null) {
             Assert.hasText(projectKey, "projectKey must not be empty.");
         }
-        
-        if (endDate == null){
-            endDateValue = new Date(); 
+
+        if (startDate == null) {
+            startDateValue = DateUtils.parseISO8601Date(DateUtils.DEFAULT_START_DATE);
+        } else {
+            Assert.hasText(startDate, "startDate must not be empty.");
+            startDateValue = DateUtils.parseISO8601Date(startDate);
+        }
+
+        if (endDate == null) {
+            endDateValue = new Date();
         } else {
             Assert.hasText(endDate, "endDate must not be empty.");
             endDateValue = DateUtils.parseISO8601Date(endDate);
         }
-        
 
         return workLogService.getUserProjectWorkLogsForPeriod(userid,
-                projectKey, DateUtils.parseISO8601Date(startDate),
-                endDateValue);
+                projectKey, startDateValue, endDateValue);
     }
 
 }
