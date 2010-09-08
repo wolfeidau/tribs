@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>au.id.wolfe.tribs</groupId>
   <artifactId>tribs</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.2</version>
   <inceptionYear>2010</inceptionYear>
   <organization>
     <name>Mark Wolfe</name>
