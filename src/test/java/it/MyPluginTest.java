@@ -18,7 +18,14 @@ package it;
 
 import org.junit.Test;
 
-public class MyPluginTest {
+import com.atlassian.jira.webtests.JIRAWebTest;
+
+public class MyPluginTest extends JIRAWebTest {
+
+    public MyPluginTest(String name) {
+        super(name);
+    }
+
     @Test
     public void integrationTest() {
     }

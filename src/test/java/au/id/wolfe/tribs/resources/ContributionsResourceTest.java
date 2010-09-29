@@ -17,8 +17,8 @@
 package au.id.wolfe.tribs.resources;
 
 import static junit.framework.Assert.assertEquals;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -30,7 +30,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import au.id.wolfe.tribs.data.ContributionsReport;
-import au.id.wolfe.tribs.resources.ContributionsResource;
 import au.id.wolfe.tribs.service.ContributionsService;
 import au.id.wolfe.tribs.utils.DateUtils;
 
