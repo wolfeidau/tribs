@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+  <ModulePrefs
+    title="Tribs Worklog"
+    author="Mark Wolfe"
+    thumbnail=
+      '#staticResourceUrl("au.id.wolfe.tribs:tribs",
+         "tribs-thumbnail.png")'
+    description="A list of this months work logs, grouped by issue.">
+
+    <Require feature="minimessage" />
+    <Require feature="dynamic-height" />
+
+  </ModulePrefs>
+
+  <UserPref
+    name="show_date"
+    display_name="Show Dates?"
+    datatype="bool"
+    default_value="true"/>
+  <UserPref
+    name="num_entries"
+    display_name="Number of Entries:"
+    default_value="5"
+    required="true"/>
+
+  <Content type="html"><![CDATA[
+    #requireResource("au.id.wolfe.tribs:resources")
+    <script>
+      // Request URL for most recently created,
+      // unresolved issues on this server
+      var url = "__ATLASSIAN_BASE_URL__/tribs-rest/1.0/period?startDate=2010-09-01";
+    </script>
+    #includeResources()
+
+    <div id="content_div"></div>
+  ]]></Content>
+</Module>
