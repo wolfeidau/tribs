@@ -16,17 +16,17 @@
 
 package it;
 
+import com.atlassian.jira.functest.framework.FuncTestCase;
 import org.junit.Test;
 
-import com.atlassian.jira.webtests.JIRAWebTest;
+public class MyPluginTest extends FuncTestCase {
 
-public class MyPluginTest extends JIRAWebTest {
-
-    public MyPluginTest(String name) {
-        super(name);
-    }
-
+    /**
+     *
+     */
     @Test
-    public void integrationTest() {
+    public void testUsersProjectPermissions() {
+        navigation.logout();
+        navigation.login("admin", "admin");
     }
 }

@@ -16,13 +16,13 @@
 
 package au.id.wolfe.tribs.utils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class DateUtilsTest {
 
@@ -35,7 +35,7 @@ public class DateUtilsTest {
         Date expectedDate = cal.getTime();
 
         Date newDate = DateUtils.parseDate("2010-01-01",
-                new String[] { "yyyy-MM-dd" });
+                new String[]{"yyyy-MM-dd"});
 
         assertNotNull(newDate);
         assertEquals(expectedDate, newDate);

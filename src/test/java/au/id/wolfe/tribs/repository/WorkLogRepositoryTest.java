@@ -16,15 +16,12 @@
 
 package au.id.wolfe.tribs.repository;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-
+import au.id.wolfe.tribs.repository.impl.WorkLogRepositoryImpl;
+import au.id.wolfe.tribs.utils.DateUtils;
+import com.atlassian.crowd.util.Assert;
+import com.atlassian.jira.issue.worklog.OfBizWorklogStore;
+import com.atlassian.jira.ofbiz.OfBizDelegator;
+import com.google.common.collect.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -32,13 +29,14 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.ofbiz.core.entity.EntityCondition;
 import org.ofbiz.core.entity.GenericValue;
 
-import au.id.wolfe.tribs.repository.impl.WorkLogRepositoryImpl;
-import au.id.wolfe.tribs.utils.DateUtils;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
-import com.atlassian.crowd.integration.util.Assert;
-import com.atlassian.jira.issue.worklog.OfBizWorklogStore;
-import com.atlassian.jira.ofbiz.OfBizDelegator;
-import com.google.common.collect.Lists;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WorkLogRepositoryTest {

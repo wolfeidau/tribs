@@ -16,11 +16,10 @@
 
 package au.id.wolfe.tribs.data;
 
-import static org.junit.Assert.assertEquals;
-
+import au.id.wolfe.tribs.fixtures.WorkLogEntryFixture;
 import org.junit.Test;
 
-import au.id.wolfe.tribs.fixtures.WorkLogEntryFixture;
+import static org.junit.Assert.assertEquals;
 
 public class WorkLogEntryTest {
 

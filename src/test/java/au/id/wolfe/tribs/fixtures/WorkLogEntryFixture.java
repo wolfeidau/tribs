@@ -16,9 +16,9 @@
 
 package au.id.wolfe.tribs.fixtures;
 
-import java.util.Date;
-
 import au.id.wolfe.tribs.data.WorkLogEntry;
+
+import java.util.Date;
 
 public final class WorkLogEntryFixture {
 

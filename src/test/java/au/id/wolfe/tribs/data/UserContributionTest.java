@@ -16,11 +16,11 @@
 
 package au.id.wolfe.tribs.data;
 
+import org.junit.Test;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-
-import org.junit.Test;
 
 public class UserContributionTest {
 

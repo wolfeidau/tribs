@@ -16,19 +16,18 @@
 
 package au.id.wolfe.tribs.resources;
 
-import static junit.framework.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
-
-import java.util.Date;
-
+import au.id.wolfe.tribs.data.WorkLogReport;
+import au.id.wolfe.tribs.service.WorkLogService;
+import au.id.wolfe.tribs.utils.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import au.id.wolfe.tribs.data.WorkLogReport;
-import au.id.wolfe.tribs.service.WorkLogService;
-import au.id.wolfe.tribs.utils.DateUtils;
+import java.util.Date;
+
+import static junit.framework.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WorkLogResourceTest {
@@ -40,7 +39,7 @@ public class WorkLogResourceTest {
     public void testGetUserProjectWorkLogsForPeriod() throws Exception {
 
         WorkLogResource workLogResource = getWorkLogResource();
-        
+
         Date startDate = DateUtils.parseISO8601Date("2000-01-01");
         Date endDate = DateUtils.parseISO8601Date("2020-01-01");
 

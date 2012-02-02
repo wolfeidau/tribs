@@ -1,0 +1,7 @@
+*.iml
+.idea
+.svn
+*.ipr
+*.iws
+target
+activemq-data
