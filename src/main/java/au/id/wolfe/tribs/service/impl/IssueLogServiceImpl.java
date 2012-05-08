@@ -9,8 +9,6 @@ import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.IssueManager;
 import com.atlassian.jira.issue.changehistory.ChangeHistoryItem;
 import com.atlassian.jira.issue.changehistory.ChangeHistoryManager;
-import com.atlassian.jira.issue.issuetype.IssueType;
-import com.atlassian.jira.issue.priority.Priority;
 import com.atlassian.jira.project.Project;
 import com.atlassian.jira.project.ProjectManager;
 import org.slf4j.Logger;
@@ -70,11 +68,7 @@ public class IssueLogServiceImpl implements IssueLogService {
         return issueLogReport;
     }
 
-    private String changeHistoryItemInfo(ChangeHistoryItem changeHistoryItem) {
-        return "field = " + changeHistoryItem.getField() + "froms = " + changeHistoryItem.getFroms() + "tos = " + changeHistoryItem.getTos();
-    }
-
-    private IssueLogEntry buildIssueLogEntry(Issue issue, List<ChangeHistoryItem> changeHistoryList){
+    private IssueLogEntry buildIssueLogEntry(Issue issue, List<ChangeHistoryItem> changeHistoryList) {
         IssueLogEntry issueLogEntry = new IssueLogEntry();
 
         issueLogEntry.setCreatedDate(issue.getCreated());
@@ -87,7 +81,7 @@ public class IssueLogServiceImpl implements IssueLogService {
 
         for (ChangeHistoryItem changeHistoryItem : changeHistoryList) {
 
-            if (changeHistoryItem.getField().equals("status")){
+            if (changeHistoryItem.getField().equals("status")) {
                 HistoryEntry historyEntry = new HistoryEntry();
 
                 historyEntry.setField(changeHistoryItem.getField());
@@ -104,7 +98,7 @@ public class IssueLogServiceImpl implements IssueLogService {
         return issueLogEntry;
     }
 
-    private Timestamp dateToTimestamp(Date date){
+    private Timestamp dateToTimestamp(Date date) {
         return new Timestamp(date.getTime());
     }
 }
