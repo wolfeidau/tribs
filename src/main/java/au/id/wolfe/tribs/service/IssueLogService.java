@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-package au.id.wolfe.tribs.data;
+package au.id.wolfe.tribs.service;
 
-import au.id.wolfe.tribs.fixtures.WorkLogEntryFixture;
-import org.junit.Test;
+import au.id.wolfe.tribs.data.IssueLogReport;
 
-import static org.junit.Assert.assertEquals;
+import java.util.Date;
 
-public class WorkLogEntryTest {
+/**
+ * Issue log builds a summary of issues based on the given params.
+ */
+public interface IssueLogService {
 
-    @Test
-    public void testWorkLogEntryEquals() {
-        WorkLogEntry firstWorkLogEntry = WorkLogEntryFixture.getWorkLogEntryWithData();
-        WorkLogEntry secondWorkLogEntry = WorkLogEntryFixture.getWorkLogEntryWithData();
-
-        assertEquals(firstWorkLogEntry, secondWorkLogEntry);
-    }
+    IssueLogReport getProjectIssueLogsForPeriod(String projectKey, Date startDate, Date endDate);
 
 }

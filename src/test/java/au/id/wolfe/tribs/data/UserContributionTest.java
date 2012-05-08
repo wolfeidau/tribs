@@ -29,27 +29,27 @@ public class UserContributionTest {
 
         boolean added;
 
-        ProjectTimeSpent phs = new ProjectTimeSpent("STAR", "Star Project", 60l);
+        ProjectTimeSpent projectTimeSpent = new ProjectTimeSpent("STAR", "Star Project", 60l);
 
-        UserContribution uc = new UserContribution("markw", "Mark Wolfe");
+        UserContribution userContribution = new UserContribution("markw", "Mark Wolfe");
 
-        added = uc.addOrUpdateProjectHours("STAR", "Star Project", 60l);
+        added = userContribution.addOrUpdateProjectHours("STAR", "Star Project", 60l);
 
         assertTrue(added);
 
-        assertEquals(true, uc.getProjectTimeSpentList().contains(phs));
+        assertEquals(true, userContribution.getProjectTimeSpentList().contains(projectTimeSpent));
 
-        assertEquals(1, uc.getProjectTimeSpentList().size());
+        assertEquals(1, userContribution.getProjectTimeSpentList().size());
 
-        added = uc.addOrUpdateProjectHours("STAR", "Star Project", 50l);
+        added = userContribution.addOrUpdateProjectHours("STAR", "Star Project", 50l);
 
         assertFalse(added);
 
-        phs.setTimespent(110l);
+        projectTimeSpent.setTimespent(110l);
 
-        assertTrue(uc.getProjectTimeSpentList().contains(phs));
+        assertTrue(userContribution.getProjectTimeSpentList().contains(projectTimeSpent));
 
-        assertEquals(1, uc.getProjectTimeSpentList().size());
+        assertEquals(1, userContribution.getProjectTimeSpentList().size());
 
     }
 

@@ -19,10 +19,16 @@
   <component key="workLogService" name="Work Log Service"
     class="au.id.wolfe.tribs.service.impl.WorkLogServiceImpl" />
 
-  <component key="workLogRepository" name="Work Log Repository"
-    class="au.id.wolfe.tribs.repository.impl.WorkLogRepositoryImpl" />
+  <component key="issueLogService" name="Issue Log Service"
+    class="au.id.wolfe.tribs.service.impl.IssueLogServiceImpl"/>
 
-  <resource type="download" name="tribs-thumbnail.png"
+  <component key="workLogRepository" name="Work Log Repository"
+    class="au.id.wolfe.tribs.repository.impl.WorkLogRepositoryImpl"/>
+
+  <component key="issueRepository" name="Issue Repository"
+    class="au.id.wolfe.tribs.repository.impl.IssueRepositoryImpl"/>
+
+    <resource type="download" name="tribs-thumbnail.png"
     location="tribs-thumbnail.png" />
 
   <web-resource key="resources">

@@ -19,9 +19,8 @@ package au.id.wolfe.tribs.data;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-
-import com.atlassian.gzipfilter.org.apache.commons.lang.builder.EqualsBuilder;
 
 /**
  * 

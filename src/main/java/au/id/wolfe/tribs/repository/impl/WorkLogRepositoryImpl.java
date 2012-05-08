@@ -47,7 +47,7 @@ import au.id.wolfe.tribs.service.impl.ContributionsServiceImpl;
  */
 public class WorkLogRepositoryImpl implements WorkLogRepository {
 
-    Logger logger = LoggerFactory.getLogger(ContributionsServiceImpl.class);
+    Logger logger = LoggerFactory.getLogger(WorkLogRepositoryImpl.class);
 
     OfBizDelegator genericDelegator;
 
