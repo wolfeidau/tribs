@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- *
+ * Basic history of an issue.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HistoryEntry {

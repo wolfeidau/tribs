@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *
+ * Summary of an issue.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class IssueLogEntry {
@@ -21,6 +21,9 @@ public class IssueLogEntry {
     private String type;
     private Date createdDate;
     private Date resolutionDate;
+
+    private User reporterUser;
+    private User assignedUser;
 
     private List<HistoryEntry> historyEntryList = Lists.newArrayList();
 
@@ -86,5 +89,21 @@ public class IssueLogEntry {
 
     public void setHistoryEntryList(List<HistoryEntry> historyEntryList) {
         this.historyEntryList = historyEntryList;
+    }
+
+    public User getReporterUser() {
+        return reporterUser;
+    }
+
+    public void setReporterUser(User reporterUser) {
+        this.reporterUser = reporterUser;
+    }
+
+    public User getAssignedUser() {
+        return assignedUser;
+    }
+
+    public void setAssignedUser(User assignedUser) {
+        this.assignedUser = assignedUser;
     }
 }

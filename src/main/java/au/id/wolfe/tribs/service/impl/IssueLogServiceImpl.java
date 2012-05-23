@@ -3,6 +3,7 @@ package au.id.wolfe.tribs.service.impl;
 import au.id.wolfe.tribs.data.HistoryEntry;
 import au.id.wolfe.tribs.data.IssueLogEntry;
 import au.id.wolfe.tribs.data.IssueLogReport;
+import au.id.wolfe.tribs.data.User;
 import au.id.wolfe.tribs.repository.IssueRepository;
 import au.id.wolfe.tribs.service.IssueLogService;
 import com.atlassian.jira.issue.Issue;
@@ -69,6 +70,7 @@ public class IssueLogServiceImpl implements IssueLogService {
     }
 
     private IssueLogEntry buildIssueLogEntry(Issue issue, List<ChangeHistoryItem> changeHistoryList) {
+
         IssueLogEntry issueLogEntry = new IssueLogEntry();
 
         issueLogEntry.setCreatedDate(issue.getCreated());
@@ -78,6 +80,16 @@ public class IssueLogServiceImpl implements IssueLogService {
 
         issueLogEntry.setPriority(issue.getPriorityObject().getName());
         issueLogEntry.setType(issue.getIssueTypeObject().getName());
+
+        if (issue.getAssigneeUser() != null){
+            // populate assigned user
+            issueLogEntry.setAssignedUser(new User(issue.getAssigneeUser().getDisplayName(), issue.getAssigneeUser().getEmailAddress()));
+        }
+
+        if (issue.getReporterUser() != null) {
+            // populate reporter user
+            issueLogEntry.setReporterUser(new User(issue.getReporterUser().getDisplayName(), issue.getReporterUser().getEmailAddress()));
+        }
 
         for (ChangeHistoryItem changeHistoryItem : changeHistoryList) {
 
@@ -93,7 +105,6 @@ public class IssueLogServiceImpl implements IssueLogService {
             }
 
         }
-
 
         return issueLogEntry;
     }

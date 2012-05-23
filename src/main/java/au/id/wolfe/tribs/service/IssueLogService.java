@@ -25,6 +25,15 @@ import java.util.Date;
  */
 public interface IssueLogService {
 
+    /**
+     * Given a valid project key this will search and return a list of issues with thier
+     * associated status change history, reporter and assigned users.
+     *
+     * @param projectKey The project key to filter by.
+     * @param startDate The start date.
+     * @param endDate The end date.
+     * @return An issue log report.
+     */
     IssueLogReport getProjectIssueLogsForPeriod(String projectKey, Date startDate, Date endDate);
 
 }

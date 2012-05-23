@@ -13,7 +13,8 @@ import javax.ws.rs.core.MediaType;
 import java.util.Date;
 
 /**
- *
+ * This resource assembles a issue log report which contains a brief entry for each issue along with it's status
+ * history.
  */
 @Path("/issuelog")
 public class IssueLogResource {
