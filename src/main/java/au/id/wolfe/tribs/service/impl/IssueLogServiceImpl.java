@@ -1,9 +1,6 @@
 package au.id.wolfe.tribs.service.impl;
 
-import au.id.wolfe.tribs.data.HistoryEntry;
-import au.id.wolfe.tribs.data.IssueLogEntry;
-import au.id.wolfe.tribs.data.IssueLogReport;
-import au.id.wolfe.tribs.data.User;
+import au.id.wolfe.tribs.data.*;
 import au.id.wolfe.tribs.repository.IssueRepository;
 import au.id.wolfe.tribs.service.IssueLogService;
 import com.atlassian.jira.issue.Issue;
@@ -20,6 +17,7 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Service which provides access to issue log detail information from the JIRA API.
@@ -97,8 +95,13 @@ public class IssueLogServiceImpl implements IssueLogService {
                 HistoryEntry historyEntry = new HistoryEntry();
 
                 historyEntry.setField(changeHistoryItem.getField());
-                historyEntry.setFroms(changeHistoryItem.getFroms());
-                historyEntry.setTos(changeHistoryItem.getTos());
+                for (Map.Entry<String, String> changeFromEntry: changeHistoryItem.getFroms().entrySet()){
+                    historyEntry.getFroms().add( new StatusChange(changeFromEntry));
+                }
+                for (Map.Entry<String, String> changeToEntry: changeHistoryItem.getTos().entrySet()){
+                    historyEntry.getTos().add(new StatusChange(changeToEntry));
+                }
+
                 historyEntry.setCreatedDate(changeHistoryItem.getCreated());
 
                 issueLogEntry.getHistoryEntryList().add(historyEntry);

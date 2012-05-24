@@ -3,6 +3,7 @@ package au.id.wolfe.tribs.data;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,8 +13,9 @@ import java.util.Map;
 public class HistoryEntry {
 
     private String field;
-    private Map<String, String> froms;
-    private Map<String, String> tos;
+    private List<StatusChange> froms;
+    private List<StatusChange> tos;
+
     private Date createdDate;
 
     public String getField() {
@@ -24,19 +26,19 @@ public class HistoryEntry {
         this.field = field;
     }
 
-    public Map<String, String> getFroms() {
+    public List<StatusChange> getFroms() {
         return froms;
     }
 
-    public void setFroms(Map<String, String> froms) {
+    public void setFroms(List<StatusChange> froms) {
         this.froms = froms;
     }
 
-    public Map<String, String> getTos() {
+    public List<StatusChange> getTos() {
         return tos;
     }
 
-    public void setTos(Map<String, String> tos) {
+    public void setTos(List<StatusChange> tos) {
         this.tos = tos;
     }
 
