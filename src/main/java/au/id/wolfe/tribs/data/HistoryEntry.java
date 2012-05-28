@@ -1,5 +1,7 @@
 package au.id.wolfe.tribs.data;
 
+import com.google.common.collect.Lists;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import java.util.Date;
@@ -13,8 +15,8 @@ import java.util.Map;
 public class HistoryEntry {
 
     private String field;
-    private List<StatusChange> froms;
-    private List<StatusChange> tos;
+    private List<StatusChange> froms = Lists.newLinkedList();
+    private List<StatusChange> tos = Lists.newLinkedList();
 
     private Date createdDate;
 
