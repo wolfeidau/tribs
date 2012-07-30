@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import com.atlassian.crowd.embedded.api.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,13 +35,11 @@ import com.atlassian.jira.project.Project;
 import com.atlassian.jira.security.JiraAuthenticationContext;
 import com.atlassian.jira.security.PermissionManager;
 import com.atlassian.jira.security.Permissions;
-import com.opensymphony.user.User;
+
 
 /**
- * 
  * Service which provides access to work log information in the form of
  * aggregated reports from the JIRA API.
- * 
  */
 public class ContributionsServiceImpl implements ContributionsService {
 
@@ -53,9 +52,9 @@ public class ContributionsServiceImpl implements ContributionsService {
     private final PermissionManager permissionManager;
 
     public ContributionsServiceImpl(WorkLogRepository workLogRepository,
-            WorklogManager worklogManager,
-            JiraAuthenticationContext jiraAuthenticationContext,
-            PermissionManager permissionManager) {
+                                    WorklogManager worklogManager,
+                                    JiraAuthenticationContext jiraAuthenticationContext,
+                                    PermissionManager permissionManager) {
 
         this.workLogRepository = workLogRepository;
         this.worklogManager = worklogManager;
@@ -75,7 +74,7 @@ public class ContributionsServiceImpl implements ContributionsService {
     }
 
     public ContributionsReport getUserContributionsForPeriod(Date startDate,
-            Date endDate, String userid, String projectKey) {
+                                                             Date endDate, String userid, String projectKey) {
 
         logger.debug("Retrieving all contributions for given startDate "
                 + startDate + ", endDate " + endDate);

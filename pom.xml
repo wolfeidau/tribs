@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>au.id.wolfe.tribs</groupId>
   <artifactId>tribs</artifactId>
-  <version>1.4-SNAPSHOT</version>
+  <version>1.5-SNAPSHOT</version>
   <inceptionYear>2010</inceptionYear>
   <organization>
     <name>Mark Wolfe</name>
@@ -178,8 +178,8 @@
   </repositories>
 
   <properties>
-    <jira.version>4.4.4</jira.version>
-    <jira.data.version>4.4.4</jira.data.version>
+    <jira.version>5.1</jira.version>
+    <jira.data.version>5.1</jira.data.version>
     <powermock.version>1.3.6</powermock.version>
   </properties>
 
