@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>au.id.wolfe.tribs</groupId>
   <artifactId>tribs</artifactId>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.5.1-SNAPSHOT</version>
   <inceptionYear>2010</inceptionYear>
   <organization>
     <name>Mark Wolfe</name>
@@ -92,10 +92,15 @@
       <version>${powermock.version}</version>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>com.atlassian.jira</groupId>
-      <artifactId>atlassian-jira</artifactId>
+      <artifactId>jira-api</artifactId>
+      <version>${jira.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.atlassian.jira</groupId>
+      <artifactId>jira-core</artifactId>
       <version>${jira.version}</version>
       <scope>provided</scope>
     </dependency>
@@ -178,9 +183,9 @@
   </repositories>
 
   <properties>
-    <jira.version>5.1</jira.version>
-    <jira.data.version>5.1</jira.data.version>
-    <powermock.version>1.3.6</powermock.version>
+  	<jira.version>6.0</jira.version>
+  	<jira.data.version>6.0</jira.data.version>
+  	<powermock.version>1.3.6</powermock.version>
   </properties>
 
 </project>

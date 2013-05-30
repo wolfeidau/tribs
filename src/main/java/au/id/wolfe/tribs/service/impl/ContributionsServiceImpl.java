@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-import com.atlassian.crowd.embedded.api.User;
+import com.atlassian.jira.user.ApplicationUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,7 +79,7 @@ public class ContributionsServiceImpl implements ContributionsService {
         logger.debug("Retrieving all contributions for given startDate "
                 + startDate + ", endDate " + endDate);
 
-        User user = jiraAuthenticationContext.getUser();
+        ApplicationUser user = jiraAuthenticationContext.getUser();
 
         ContributionsReport contributionsReport = new ContributionsReport(
                 "Success", 200);
