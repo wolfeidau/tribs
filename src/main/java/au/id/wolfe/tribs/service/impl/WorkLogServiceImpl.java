@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-import com.atlassian.crowd.embedded.api.User;
+import com.atlassian.jira.user.ApplicationUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,7 +72,7 @@ public class WorkLogServiceImpl implements WorkLogService {
 
         WorkLogReport workLogReport = new WorkLogReport("Success", 200);
 
-        User user = jiraAuthenticationContext.getUser();
+        ApplicationUser user = jiraAuthenticationContext.getUser();
 
         List<Long> workLogIdValues = workLogRepository
                 .getWorkLogIdListForPeriod(new Timestamp(startDate.getTime()),
@@ -101,7 +101,7 @@ public class WorkLogServiceImpl implements WorkLogService {
         return workLogReport;
     }
 
-    private boolean isWorkLogToBeIncluded(User user, Project project,
+    private boolean isWorkLogToBeIncluded(ApplicationUser user, Project project,
             Worklog worklog, String userid, String projectKey) {
 
         return permissionManager.hasPermission(Permissions.BROWSE, project,

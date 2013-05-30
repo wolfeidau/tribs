@@ -19,7 +19,7 @@ package au.id.wolfe.tribs.service;
 import au.id.wolfe.tribs.data.WorkLogReport;
 import au.id.wolfe.tribs.repository.WorkLogRepository;
 import au.id.wolfe.tribs.service.impl.WorkLogServiceImpl;
-import com.atlassian.crowd.embedded.api.User;
+import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.worklog.Worklog;
 import com.atlassian.jira.issue.worklog.WorklogManager;
@@ -44,7 +44,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(User.class)
+@PrepareForTest(ApplicationUser.class)
 public class WorkLogServiceTest {
 
     @Mock
@@ -71,7 +71,7 @@ public class WorkLogServiceTest {
         Worklog worklog = mock(Worklog.class);
         Issue issue = mock(Issue.class);
         Project project = mock(Project.class);
-        User user = mock(User.class);
+        ApplicationUser user = mock(ApplicationUser.class);
 
         when(worklog.getIssue()).thenReturn(issue);
         when(issue.getProjectObject()).thenReturn(project);
